@@ -12,7 +12,7 @@ export function ProjectRow({ project, index }: { project: Project; index: number
         <span className="project-focus">{project.focus}</span>
       </span>
       <span className="project-end">
-        <StatusBadge />
+        <StatusBadge status={project.status} />
         <span className="project-arrow" aria-hidden="true">↗</span>
       </span>
     </Link>

@@ -5,5 +5,5 @@ export const site = {
   github: "https://github.com/WYLLLY",
   headline: "Building backend systems with a focus on correctness, resilience, and observability.",
   description:
-    "William Decatoire is a backend engineer focused on Python, reliable APIs, and data-intensive systems. Explore four personal engineering projects in development.",
+    "William Decatoire is a backend engineer focused on Python, reliable APIs, and data-intensive systems. Explore completed work and ongoing personal engineering projects.",
 } as const;

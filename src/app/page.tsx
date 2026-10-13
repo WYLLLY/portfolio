@@ -17,7 +17,7 @@ export default function Home() {
             <p className="section-index">01 / WORK</p>
             <h2 id="projects-title">Selected Projects</h2>
           </div>
-          <p>Personal engineering projects<br />currently in development.</p>
+          <p>Completed work and ongoing<br />personal engineering projects.</p>
         </div>
         <div className="project-list">
           {projects.map((project, index) => <ProjectRow key={project.slug} project={project} index={index} />)}

@@ -19,22 +19,24 @@ export function CaseStudy({ project }: { project: Project }) {
         <p className="eyebrow"><span className="eyebrow-rule" />Personal Engineering Project</p>
         <h1>{project.title}</h1>
         <p className="case-deck">{project.summary}</p>
-        <div className="case-meta"><StatusBadge /><span>{project.focus}</span></div>
+        <div className="case-meta"><StatusBadge status={project.status} /><span>{project.focus}</span></div>
       </header>
 
       <div className="development-note">
         <span className="note-marker" aria-hidden="true" />
-        <p>This project is in development. The sections below describe its intended scope and validation plan. Implementation evidence will be added as the work progresses.</p>
+        <p>{project.status === "completed"
+          ? project.completionNote
+          : "This project is in development. The sections below describe its intended scope and validation plan. Implementation evidence will be added as the work progresses."}</p>
       </div>
 
       <div className="case-content">
         <CaseStudySection title="Overview"><p>{project.overview}</p></CaseStudySection>
         <CaseStudySection title="Engineering Challenge"><p>{project.challenge}</p></CaseStudySection>
-        <CaseStudySection title="Planned Scope">
-          <ul>{project.plannedScope.map((item) => <li key={item}>{item}</li>)}</ul>
+        <CaseStudySection title={project.status === "completed" ? "Implemented Scope" : "Planned Scope"}>
+          <ul>{project.scope.map((item) => <li key={item}>{item}</li>)}</ul>
         </CaseStudySection>
-        <CaseStudySection title="Validation Plan">
-          <ul>{project.validationPlan.map((item) => <li key={item}>{item}</li>)}</ul>
+        <CaseStudySection title={project.status === "completed" ? "Verification Results" : "Validation Plan"}>
+          <ul>{project.validation.map((item) => <li key={item}>{item}</li>)}</ul>
         </CaseStudySection>
         {project.verifiedSections?.map((section) => (
           <CaseStudySection key={section.title} title={section.title}>
