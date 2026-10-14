@@ -17,6 +17,7 @@ const scenarios: Record<ScenarioKey, {
   heading: string;
   steps: [string, string, string];
   outcome: string;
+  trace: [string, string, string, string, string];
 }> = {
   success: {
     eyebrow: "01 / CONFIRMED ACCEPTANCE",
@@ -27,6 +28,7 @@ const scenarios: Record<ScenarioKey, {
       "A terminal transaction moves reserved funds to clearing and marks the payment succeeded.",
     ],
     outcome: "Reserved → clearing · succeeded",
+    trace: ["request → received", "transaction → reserve", "response → 202 Accepted", "provider → accepted", "journal → settle"],
   },
   failure: {
     eyebrow: "02 / DEFINITIVE REFUSAL",
@@ -37,6 +39,7 @@ const scenarios: Record<ScenarioKey, {
       "A terminal transaction returns reserved funds to available and marks the payment failed.",
     ],
     outcome: "Reserved → available · failed",
+    trace: ["request → received", "transaction → reserve", "response → 202 Accepted", "provider → refused", "journal → release"],
   },
   timeout: {
     eyebrow: "03 / UNKNOWN OUTCOME",
@@ -47,6 +50,7 @@ const scenarios: Record<ScenarioKey, {
       "If bounded attempts are exhausted, needs_review retains the funds until a definitive outcome is observed.",
     ],
     outcome: "Funds remain reserved · pending or needs_review",
+    trace: ["request → received", "transaction → reserve", "response → 202 Accepted", "provider → unknown", "recovery → retain funds"],
   },
 };
 
@@ -90,11 +94,17 @@ export function PaymentArchitecture() {
         </div>
       </div>
       <div className="ledger-scenario-result" aria-live="polite">
-        <div className="ledger-scenario-lead"><span>{activeScenario.eyebrow}</span><h4>{activeScenario.heading}</h4></div>
-        <ol>{activeScenario.steps.map((step) => <li key={step}>{step}</li>)}</ol>
-        <p className="ledger-scenario-outcome"><span>FINANCIAL STATE</span>{activeScenario.outcome}</p>
+        <div className="ledger-scenario-lead"><span>{activeScenario.eyebrow}</span><h4>{activeScenario.heading}</h4><p>Follow the same payment identity through the local transaction and the external outcome.</p></div>
+        <div className="ledger-scenario-demo">
+          <div className="ledger-demo-chrome"><span><i aria-hidden="true" /> PAYMENT TRACE</span><span>BEHAVIOR MAP / {scenario.toUpperCase()}</span></div>
+          <ol className="ledger-demo-lines" aria-label={`${scenario} behavior map`}>
+            {activeScenario.trace.map((line, index) => <li key={line}><span>{String(index + 1).padStart(2, "0")}</span><code>{line}</code></li>)}
+          </ol>
+          <div className="ledger-demo-state"><span>FINAL STATE</span><strong>{activeScenario.outcome}</strong></div>
+        </div>
+        <ol className="ledger-scenario-explanation">{activeScenario.steps.map((step) => <li key={step}>{step}</li>)}</ol>
       </div>
-      <p className="ledger-explorer-note">A timeout or transient provider error is never treated as a definitive refusal. This diagram omits internal validation and authorization steps for readability.</p>
+      <p className="ledger-explorer-note">The trace is a simplified behavior map, not a captured log. A timeout or transient provider error is never treated as a definitive refusal. Internal validation and authorization steps are omitted for readability.</p>
     </div>
   );
 }

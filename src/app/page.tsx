@@ -10,16 +10,16 @@ export default function Home() {
     <main id="main" className="home-page">
       <section className="home-hero shell" aria-labelledby="home-title">
         <div className="home-hero-topline">
-          <span>William Decatoire / Backend Engineer</span>
+          <span>Independent engineering portfolio</span>
           <span>Selected work · 2026</span>
         </div>
         <div className="home-hero-grid">
           <div className="home-hero-identity">
-            <p className="home-hero-kicker"><span className="home-kicker-mark" />Independent engineering portfolio</p>
-            <h1 id="home-title">William<span>Decatoire<span className="home-title-period">.</span></span></h1>
+            <p className="home-hero-kicker"><span className="home-kicker-mark" />William Decatoire <span className="home-kicker-separator">/</span> Backend Engineer</p>
+            <h1 id="home-title">Systems that<br /><em>hold.</em></h1>
           </div>
           <div className="home-hero-position">
-            <span className="home-rail-label">01 — 04 / BACKEND SYSTEMS</span>
+            <span className="home-rail-label">BACKEND ENGINEERING / SELECTED WORK</span>
             <p>{site.headline}</p>
             <a href="#projects" className="home-inline-link">Explore selected work <span aria-hidden="true">↘</span></a>
           </div>
@@ -47,11 +47,19 @@ export default function Home() {
               <div className="home-project-foot"><span>Financial correctness · FastAPI · PostgreSQL</span><span className="home-link-arrow" aria-hidden="true">↗</span></div>
             </div>
             <div className="home-ledger-preview" aria-hidden="true">
-              <div className="home-preview-head"><span>IMPLEMENTED PAYMENT PATH</span><span>01 / 03</span></div>
-              <div className="home-preview-request"><span>POST /payments</span><span>202 ACCEPTED</span></div>
-              <div className="home-preview-flow"><span>available</span><i /><span>reserved</span><i /><span>provider</span></div>
-              <div className="home-preview-journal"><span>JOURNAL</span><span>− available</span><span>+ reserved</span></div>
-              <div className="home-preview-caption">One transaction commits the reservation and durable work.</div>
+              <div className="home-preview-head"><span>PAYMENT / BEHAVIOR MAP</span><span>IMPLEMENTED</span></div>
+              <div className="home-preview-code">
+                <div><span>01</span><code><b>POST</b> /payments</code></div>
+                <div className="home-preview-code-gap"><span>02</span><code> </code></div>
+                <div><span>03</span><code><b>BEGIN</b> transaction</code></div>
+                <div><span>04</span><code><i>↳</i> reserve balance</code></div>
+                <div><span>05</span><code><i>↳</i> append ledger entries</code></div>
+                <div><span>06</span><code><i>↳</i> persist outbox task</code></div>
+                <div><span>07</span><code><b>COMMIT</b></code></div>
+                <div><span>08</span><code><i>↳</i> 202 Accepted</code></div>
+              </div>
+              <div className="home-preview-state"><span>WHEN THE PROVIDER TIMES OUT</span><strong>Funds stay reserved.</strong></div>
+              <div className="home-preview-caption">Simplified behavior map, based on the implemented payment path. Not a captured log.</div>
             </div>
           </Link>
 
