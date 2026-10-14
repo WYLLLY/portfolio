@@ -1,6 +1,6 @@
 # William Decatoire — Portfolio
 
-A personal Software and Backend Engineering portfolio built with Next.js and TypeScript. The four project pages describe work in development and separate planned scope from verified implementation evidence.
+A personal Software and Backend Engineering portfolio built with Next.js and TypeScript. Payment & Ledger System is complete through M6; the other three projects remain in development. Each page separates planned scope from verified implementation evidence. The payment case study documents 317 passing tests on the merged backend revision and keeps its private source boundary explicit.
 
 ## Run locally
 
@@ -23,7 +23,7 @@ pnpm build
 
 ## Update project content
 
-Edit `src/content/projects.ts`. Keep descriptions of planned work in future tense. Add a verified section only after its architecture, tests, measurements, or incident results are supported by the actual project. Add a repository URL only when the project repository is available.
+Edit `src/content/projects.ts`. Keep descriptions of planned work in future tense. Add a verified section only after its architecture, tests, measurements, or incident results are supported by the actual project. Use `status: "completed"` and a dated `completionNote` only when completion is verified; `scope` and `validation` then render as implemented work and results. Add a repository URL only when the project repository is publicly accessible.
 
 ## Deploy
 

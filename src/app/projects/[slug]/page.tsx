@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
   if (!project) return {};
 
   const title = `${project.title} | ${site.name}`;
-  const description = `An in-development personal engineering project. ${project.summary}`;
+  const description = `${project.status === "completed" ? "A completed" : "An in-development"} personal engineering project. ${project.summary}`;
   const siteUrl = getSiteUrl();
   const path = `/projects/${slug}`;
 
