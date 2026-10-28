@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { CaseStudy } from "@/components/CaseStudy";
 import { PaymentCaseStudy } from "@/components/PaymentCaseStudy";
+import { AICaseStudy } from "@/components/AICaseStudy";
 import { getProject, projects } from "@/content/projects";
 import { site } from "@/content/site";
 import { getSiteUrl } from "@/content/site-url";
@@ -41,7 +42,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   const { slug } = await params;
   const project = getProject(slug);
   if (!project) notFound();
-  return project.slug === "payment-ledger-system"
-    ? <PaymentCaseStudy project={project} />
-    : <CaseStudy project={project} />;
+  if (project.slug === "payment-ledger-system") return <PaymentCaseStudy project={project} />;
+  if (project.slug === "ai-task-execution-platform") return <AICaseStudy project={project} />;
+  return <CaseStudy project={project} />;
 }
