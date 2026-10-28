@@ -1,6 +1,6 @@
 # William Decatoire — Portfolio
 
-A personal Software and Backend Engineering portfolio built with Next.js and TypeScript. Payment & Ledger System is complete through M6; the other three projects remain in development. Each page separates planned scope from verified implementation evidence. The payment case study documents 317 passing tests on the merged backend revision and keeps its private source boundary explicit.
+A personal Software and Backend Engineering portfolio built with Next.js and TypeScript. Payment & Ledger System is complete through M6 and AI Task Execution Platform through M7; the other two projects remain in development. Each page separates planned scope from verified implementation evidence. The case studies document 317 passing Payment tests and 828 passing AI Platform tests on their respective merged backend revisions. Both keep source private and distinguish synthetic verification from production or live-provider qualification.
 
 ## Run locally
 
