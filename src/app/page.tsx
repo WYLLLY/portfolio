@@ -35,7 +35,7 @@ export default function Home() {
             <p className="home-section-index">01 / SELECTED WORK</p>
             <h2 id="projects-title">Systems, examined closely.</h2>
           </div>
-          <p>One completed system. Three projects in development.<br />All are personal engineering work.</p>
+          <p>Two completed systems. Two projects in development.<br />All are personal engineering work.</p>
         </div>
 
         <div className="home-project-grid">
@@ -72,9 +72,9 @@ export default function Home() {
 
           <Link className="home-ai-project home-project-link" href={"/projects/" + ai.slug}>
             <div className="home-card-overline"><span>03 / AI BACKEND</span><StatusBadge status={ai.status} /></div>
-            <div className="home-ai-graphic" aria-hidden="true"><span>queued</span><span className="home-ai-active">running<span className="home-ai-pulse" /></span><span>waiting_tool</span></div>
+            <div className="home-ai-graphic" aria-hidden="true"><span>queued</span><span className="home-ai-active">running<span className="home-ai-pulse" /></span><span>succeeded</span></div>
             <div className="home-card-bottom"><div><h3>{ai.title}</h3><p>{ai.summary}</p></div><span className="home-link-arrow" aria-hidden="true">↗</span></div>
-            <span className="home-project-disclaimer">Planned task states / durable execution</span>
+            <span className="home-project-disclaimer">828 tests passed / durable execution</span>
           </Link>
 
           <Link className="home-production-project home-project-link" href={"/projects/" + production.slug}>
@@ -94,8 +94,8 @@ export default function Home() {
           <p className="home-engineering-intro">I focus on backend engineering with Python, building reliable APIs and data-intensive systems.</p>
           <div className="home-capabilities" aria-label="Engineering skills">
             <div><h3>Backend focus</h3><p>FastAPI, PostgreSQL, SQLAlchemy, Redis, and asynchronous processing. My work spans API design, data modeling, transactions, concurrency, idempotency, authentication, testing, and distributed-system fundamentals.</p></div>
-            <div><h3>Engineering workflow</h3><p>Git, Docker, pytest, Ruff, Pyright, GitHub Actions, and AI coding agents such as Codex. I use specifications, automated tests, code review, and validation to guide the work.</p></div>
-            <div><h3>Currently developing</h3><p>I am building practical experience with message queues, observability, cloud infrastructure, Terraform, Kubernetes, and AI/LLM backend systems.</p></div>
+            <div><h3>Engineering workflow</h3><p>Git, Docker, pytest, Ruff, mypy, GitHub Actions, and AI coding agents such as Codex. I use approved specifications, test-first implementation, independent code review, and verification against real PostgreSQL and Redis.</p></div>
+            <div><h3>Currently developing</h3><p>I am building practical experience with message queues, observability, cloud infrastructure, Terraform, Kubernetes, and production operations.</p></div>
           </div>
         </div>
       </section>
