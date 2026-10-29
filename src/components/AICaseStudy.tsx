@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { Project } from "@/content/projects";
 import { AIArchitecture } from "./AIArchitecture";
 import { StatusBadge } from "./StatusBadge";
@@ -100,18 +101,28 @@ export function AICaseStudy({ project }: { project: Project }) {
           <p className="ledger-evidence-footnote">M3–M7 retain behavioral Red/Green evidence. M1/M2 test-first chronology remains unverified under a documented, owner-accepted exception.</p>
         </section>
 
+        <section className="ledger-section" aria-labelledby="ai-workspace-title">
+          <div className="ledger-section-heading"><p className="ledger-section-index">05 / LOCAL WORKSPACE</p><div><h2 id="ai-workspace-title">A window into execution.</h2><p>Taskroom / local interface extension · in review. A visual companion to the backend, with explicit sample and connected modes.</p></div></div>
+          <figure className="workspace-figure">
+            <Image src="/images/taskroom-workspace.jpg" width={1440} height={1000} sizes="(max-width: 1272px) 100vw, 1200px" alt="Taskroom local sample preview with example tasks and an inspector separating confirmed, estimated and uncertain accounting." />
+            <figcaption>Captured local sample preview. Tasks, reports, and costs shown are illustrative; this image is not an interactive or live-provider demo. <a href="/images/taskroom-workspace.jpg" target="_blank" rel="noopener noreferrer">Open full-size screenshot ↗</a></figcaption>
+          </figure>
+          <div className="ledger-intro-copy">{paragraphs("Local Interface").map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div>
+          <p className="ledger-evidence-footnote">Local start from the repository: <code>cd frontend &amp;&amp; pnpm install --frozen-lockfile &amp;&amp; pnpm dev</code>. The README documents the optional owner credential and execution boundaries. No public demo link is offered.</p>
+        </section>
+
         <section className="ledger-section ledger-boundaries" aria-labelledby="ai-performance-title">
-          <p className="ledger-section-index">05 / MEASURED WORKLOAD</p>
+          <p className="ledger-section-index">06 / MEASURED WORKLOAD</p>
           <div><h2 id="ai-performance-title">1,000 tasks.<br />A defined workload.</h2><div>{paragraphs("Performance Evidence").map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div><p className="ledger-evidence-footnote">1,000 / 1,000 succeeded · 100 concurrent SSE connections · 10,016 reads · zero nominal stream errors or duplicate simulated effects</p></div>
         </section>
 
         <section className="ledger-section ledger-boundaries" aria-labelledby="ai-recovery-title">
-          <p className="ledger-section-index">06 / FAILURE EXPERIMENTS</p>
+          <p className="ledger-section-index">07 / FAILURE EXPERIMENTS</p>
           <div><h2 id="ai-recovery-title">Practice the interruption.</h2><div>{paragraphs("Failure Experiments").map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div></div>
         </section>
 
         <section className="ledger-section ledger-boundaries" aria-labelledby="ai-boundaries-title">
-          <p className="ledger-section-index">07 / LIMITS &amp; NEXT QUESTIONS</p>
+          <p className="ledger-section-index">08 / LIMITS &amp; NEXT QUESTIONS</p>
           <div><h2 id="ai-boundaries-title">Keep the boundary visible.</h2><div>{paragraphs("Limitations").map((paragraph) => <p key={paragraph}>{paragraph}</p>)}</div><p className="ledger-evidence-footnote">Server validation limits allowed actions; it does not promise prompt-injection immunity. Local fencing cannot establish exactly-once physical execution.</p></div>
         </section>
 

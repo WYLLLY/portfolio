@@ -488,3 +488,9 @@ h1, h2, h3, p { margin-top: 0; }
   .ledger-demo-chrome, .ledger-demo-state { font-size: 11px; }
   .ledger-demo-lines li { font-size: 12px; }
 }
+
+/* Local interface evidence uses the existing case-study visual language. */
+.workspace-figure { margin: 0; border: 1px solid var(--ledger-line); background: #101612; }
+.workspace-figure img { display: block; width: 100%; height: auto; }
+.workspace-figure figcaption { padding: 18px 22px; border-top: 1px solid var(--ledger-line); color: var(--ledger-muted); font: 11px/1.8 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+.workspace-figure a { color: var(--ledger-paper); text-decoration: underline; text-underline-offset: 3px; }
