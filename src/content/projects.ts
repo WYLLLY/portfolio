@@ -19,7 +19,8 @@ export type Project = {
       | "Performance Evidence"
       | "Failure Experiments"
       | "Lessons Learned"
-      | "Limitations";
+      | "Limitations"
+      | "Local Interface";
     paragraphs: string[];
   }[];
   repository?: string;
@@ -133,6 +134,14 @@ export const projects: Project[] = [
     ],
     verifiedSections: [
       {
+        title: "Local Interface",
+        paragraphs: [
+          "Taskroom adds a Next.js workspace for exploring tasks, steps, reports, and confirmed, estimated, or uncertain costs. Sample preview works locally without credentials or Docker; all example outcomes and costs are labelled illustrative. Optional Local API mode reads the existing owner's real task state through a server-side gateway.",
+          "The extension is pushed to a draft pull request and remains under review. On 29 October 2026, 14 frontend tests, TypeScript, ESLint, formatting, build, and frontend CI passed; a fresh 828-case backend regression and backend CI also passed. Independent security/reliability review approved the scoped local code. Full test-first chronology of visual UI interactions remains unverified.",
+          "This is a free local/repository delivery, with no public hosted demo or paid model calls. Server-side creation is restricted to the simulated analysis:1 workflow. Admission and dispatch remain closed in the verified local setup; positive create/cancel and autonomous report execution through the UI have not been demonstrated. Source remains private; local use requires repository access, Node.js 24, and pnpm. No API key is entered in the browser.",
+        ],
+      },
+      {
         title: "Architecture",
         paragraphs: [
           "PostgreSQL owns durable state, permissions, events, and accounting. Redis provides ephemeral wakeups and HTTP limiting; workers continue polling PostgreSQL when notifications are lost. API, worker, and administrative commands share one application image with separate privileges and credentials.",
@@ -206,6 +215,7 @@ export const projects: Project[] = [
       "Practice a bad deployment rollback and a basic recovery procedure, then record the observed outcome.",
     ],
   },
+
 ];
 
 export function getProject(slug: string) {
