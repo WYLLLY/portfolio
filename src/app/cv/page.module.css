@@ -1,0 +1,20 @@
+.page { max-width: 900px; padding-top: 52px; padding-bottom: 100px; }
+.header { padding-top: 68px; padding-bottom: 44px; }
+.header h1 { margin-bottom: 20px; font-family: Georgia, "Times New Roman", serif; font-size: clamp(44px, 6vw, 76px); font-weight: 400; line-height: 1.06; letter-spacing: -.05em; }
+.header > p:last-child { color: var(--muted); font-size: 18px; line-height: 1.6; }
+.section { padding-block: 30px; border-top: 1px solid var(--line); }
+.section h2 { margin-bottom: 14px; font-size: 24px; letter-spacing: -.025em; }
+.section p { color: var(--muted); font-size: 16px; line-height: 1.65; }
+.downloads { display: flex; flex-wrap: wrap; gap: 20px 36px; margin-top: 26px; }
+.downloads a { padding-block: 12px; border-bottom: 1px solid var(--accent); font-size: 18px; }
+.downloads span { margin-left: 18px; color: var(--muted); font-size: 12px; }
+.projects { list-style: none; padding: 0; margin-top: 28px; }
+.projects li + li { margin-top: 25px; }
+.projects a { font-size: 18px; font-weight: 600; }
+.projects a:hover, .downloads a:hover { color: var(--accent); }
+.projects p { max-width: 660px; margin-top: 9px; margin-bottom: 0; }
+@media (max-width: 560px) {
+  .page { padding-top: 30px; padding-bottom: 60px; }
+  .header { padding-top: 44px; padding-bottom: 28px; }
+  .downloads { flex-direction: column; align-items: flex-start; gap: 8px; }
+}

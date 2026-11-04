@@ -11,6 +11,7 @@ export function SiteHeader() {
         <nav className="site-nav" aria-label="Main navigation">
           <Link href="/#projects">Projects</Link>
           <Link href="/#engineering">Engineering</Link>
+          <Link href="/cv">CV</Link>
           <a href={site.github}>GitHub</a>
           <Link href="/#contact">Contact</Link>
         </nav>

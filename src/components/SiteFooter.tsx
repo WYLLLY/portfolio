@@ -7,6 +7,7 @@ export function SiteFooter() {
       <span>{site.name}</span>
       <div className="footer-links">
         <Link href="/#projects">Projects</Link>
+        <Link href="/cv">CV</Link>
         <a href={site.github}>GitHub</a>
         <a href={`mailto:${site.email}`}>Email</a>
       </div>
