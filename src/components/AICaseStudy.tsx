@@ -92,11 +92,12 @@ export function AICaseStudy({ project }: { project: Project }) {
         </section>
 
         <section className="ledger-section ledger-evidence" aria-labelledby="ai-evidence-title">
-          <div className="ledger-section-heading"><p className="ledger-section-index">04 / ENGINEERING EVIDENCE</p><div><h2 id="ai-evidence-title">Verified behavior,<br /><em>visible limits.</em></h2><p>Results from merged main, verified on 28 October 2026. Independent post-merge code review: APPROVE. Source remains private.</p></div></div>
+          <div className="ledger-section-heading"><p className="ledger-section-index">04 / ENGINEERING EVIDENCE</p><div><h2 id="ai-evidence-title">Verified behavior,<br /><em>visible limits.</em></h2><p>Results from merged main, verified on 28 October 2026. Independent post-merge code review: APPROVE. Source is publicly available on GitHub.</p></div></div>
           <div className="ledger-evidence-grid">
             <div className="ledger-test-count"><strong>828</strong><span>TESTS PASSED</span><p>268 unit · 560 integration<br />0 failed · 0 errors · 0 skipped</p><small>Real PostgreSQL &amp; Redis</small></div>
             <div className="ledger-evidence-list">{evidence.map((item, index) => <div key={item.label}><span>0{index + 1}</span><h3>{item.label}</h3><p>{item.detail}</p></div>)}</div>
           </div>
+          <p className="ledger-evidence-footnote"><a href="https://github.com/WYLLLY/ai-task-execution-platform">View source on GitHub ↗</a></p>
           <p className="ledger-evidence-footnote">Ruff, formatting, mypy, and GitHub Actions passed. The 828-case suite uses synthetic providers. Paid OpenAI smoke is separately SKIPPED: distinct paid authorization and a spending cap were absent.</p>
           <p className="ledger-evidence-footnote">M3–M7 retain behavioral Red/Green evidence. M1/M2 test-first chronology remains unverified under a documented, owner-accepted exception.</p>
         </section>

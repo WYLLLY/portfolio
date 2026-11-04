@@ -35,7 +35,7 @@ export const projects: Project[] = [
     focus: "Financial correctness",
     status: "completed",
     completionNote:
-      "All six milestones are complete and merged. Verified on 13 October 2026: 317 tests passed, with no failures or skipped tests, and GitHub Actions passed on main. This project uses fictional funds and a simulated provider. Source code remains private.",
+      "All six milestones are complete and merged. Verified on 13 October 2026: 317 tests passed, with no failures or skipped tests, and GitHub Actions passed on main. This project uses fictional funds and a simulated provider. Source code is publicly available on GitHub.",
     overview:
       "A Python backend for EUR, USD, and JPY wallets, internal transfers, and outgoing payments. PostgreSQL enforces balanced, immutable ledger entries and nonnegative user balances. Monetary values use integer minor units without currency conversion.",
     challenge:
@@ -78,7 +78,7 @@ export const projects: Project[] = [
       {
         title: "Limitations",
         paragraphs: [
-          "This is a fictional-money portfolio project, without a real banking integration, refunds, or foreign exchange. No public backend deployment or public source access is claimed.",
+          "This is a fictional-money portfolio project, without a real banking integration, refunds, or foreign exchange. No public backend deployment is claimed; the source is public on GitHub.",
           "Provider timeouts bound socket inactivity rather than total response duration. External reconciliation is paginated observation, and the operator login uses shared-principal and incident-ticket attribution. Unknown outcomes remain reserved; there is no force-release command.",
           "Production load, backup restoration, host or disk loss, and dependency vulnerabilities have not been independently qualified. Additional composed review probes are not all retained as CI regressions.",
         ],
@@ -115,7 +115,7 @@ export const projects: Project[] = [
     focus: "AI backend infrastructure",
     status: "completed",
     completionNote:
-      "All seven milestones are complete and merged. Verified on 28 October 2026: 828 tests passed on merged main, with 0 failures, 0 errors, and 0 skipped tests. GitHub Actions passed and an independent post-merge code review approved the implementation. Verification uses synthetic providers; paid OpenAI smoke remains skipped. Source code remains private.",
+      "All seven milestones are complete and merged. Verified on 28 October 2026: 828 tests passed on merged main, with 0 failures, 0 errors, and 0 skipped tests. GitHub Actions passed and an independent post-merge code review approved the implementation. Verification uses synthetic providers; paid OpenAI smoke remains skipped. Source code is publicly available on GitHub.",
     overview:
       "A Python monolith exposes a FastAPI API, background workers, and an administrative CLI. It persists versioned document-analysis workflows, streams owner-scoped progress over SSE, and records external calls and accounting evidence. A direct HTTPX adapter implements the OpenAI Responses protocol; a separate demo report service exercises the remote-effect boundary.",
     challenge:
@@ -138,7 +138,7 @@ export const projects: Project[] = [
         paragraphs: [
           "Taskroom adds a Next.js workspace for exploring tasks, steps, reports, and confirmed, estimated, or uncertain costs. Sample preview works locally without credentials or Docker; all example outcomes and costs are labelled illustrative. Optional Local API mode reads the existing owner's real task state through a server-side gateway.",
           "The extension is pushed to a draft pull request and remains under review. On 29 October 2026, 14 frontend tests, TypeScript, ESLint, formatting, build, and frontend CI passed; a fresh 828-case backend regression and backend CI also passed. Independent security/reliability review approved the scoped local code. Full test-first chronology of visual UI interactions remains unverified.",
-          "This is a free local/repository delivery, with no public hosted demo or paid model calls. Server-side creation is restricted to the simulated analysis:1 workflow. Admission and dispatch remain closed in the verified local setup; positive create/cancel and autonomous report execution through the UI have not been demonstrated. Source remains private; local use requires repository access, Node.js 24, and pnpm. No API key is entered in the browser.",
+          "This is a free local/repository delivery, with no public hosted demo or paid model calls. Server-side creation is restricted to the simulated analysis:1 workflow. Admission and dispatch remain closed in the verified local setup; positive create/cancel and autonomous report execution through the UI have not been demonstrated. Source is public; local use requires Node.js 24 and pnpm. No API key is entered in the browser.",
         ],
       },
       {
@@ -188,7 +188,7 @@ export const projects: Project[] = [
         paragraphs: [
           "The implemented OpenAI adapter has protocol-fixture coverage, but no paid live-provider smoke or real-model quality campaign has run. A production provider profile is not provisioned. Structural report validation cannot establish factual truth.",
           "No public backend deployment, production TLS rollout, scheduled off-host backup delivery, or registry publication is claimed. The retained image inventory reports zero Python dependency findings but 244 OS findings, including two critical and 59 high; production use requires operator triage.",
-          "Source remains private. Cancellation cannot prove remote termination, restored backups can lose accepted work, and local measurements do not qualify production security, availability, or capacity.",
+          "Source is public. Cancellation cannot prove remote termination, restored backups can lose accepted work, and local measurements do not qualify production security, availability, or capacity.",
         ],
       },
     ],

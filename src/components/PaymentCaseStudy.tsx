@@ -100,7 +100,8 @@ export function PaymentCaseStudy({ project }: { project: Project }) {
         </section>
 
         <section className="ledger-section ledger-evidence" aria-labelledby="ledger-evidence-title">
-          <div className="ledger-section-heading"><p className="ledger-section-index">04 / ENGINEERING EVIDENCE</p><div><h2 id="ledger-evidence-title">Verified behavior,<br /><em>not inferred scale.</em></h2><p>Results from the merged main revision, verified on 13 October 2026. The private backend repository is not linked publicly.</p></div></div>
+          <div className="ledger-section-heading"><p className="ledger-section-index">04 / ENGINEERING EVIDENCE</p><div><h2 id="ledger-evidence-title">Verified behavior,<br /><em>not inferred scale.</em></h2><p>Results from the merged main revision, verified on 13 October 2026. The backend repository is now public on GitHub.</p></div></div>
+          <p className="ledger-evidence-footnote"><a href="https://github.com/WYLLLY/payment-ledger-system">View source on GitHub ↗</a></p>
           <div className="ledger-evidence-grid">
             <div className="ledger-test-count"><strong>317</strong><span>TESTS PASSED</span><p>31 unit · 286 integration<br />0 failed · 0 skipped</p><small>Real PostgreSQL integration suite</small></div>
             <div className="ledger-evidence-list">{evidence.map((item, index) => <div key={item.label}><span>0{index + 1}</span><h3>{item.label}</h3><p>{item.detail}</p></div>)}</div>
@@ -110,7 +111,7 @@ export function PaymentCaseStudy({ project }: { project: Project }) {
 
         <section className="ledger-section ledger-boundaries" aria-labelledby="ledger-boundaries-title">
           <p className="ledger-section-index">05 / LIMITS &amp; NEXT QUESTIONS</p>
-          <div><h2 id="ledger-boundaries-title">Keep the boundary visible.</h2><div><p>This is a personal engineering project using fictional funds and a simulated provider. It has no real banking integration, refunds, foreign exchange, public backend deployment, or public source access.</p><p>Unknown provider outcomes retain their reservation; there is no force-release command. Production load, backup restoration, host or disk loss, and dependency vulnerabilities have not been independently qualified. Those remain separate validation work, not claimed results.</p></div></div>
+          <div><h2 id="ledger-boundaries-title">Keep the boundary visible.</h2><div><p>This is a personal engineering project using fictional funds and a simulated provider. It has no real banking integration, refunds, foreign exchange, or public backend deployment. Source code is public on GitHub.</p><p>Unknown provider outcomes retain their reservation; there is no force-release command. Production load, backup restoration, host or disk loss, and dependency vulnerabilities have not been independently qualified. Those remain separate validation work, not claimed results.</p></div></div>
         </section>
 
         <Link href="/#projects" className="ledger-bottom-link"><span aria-hidden="true">←</span> Back to selected projects</Link>
