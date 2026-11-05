@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 import type { Project } from "@/content/projects";
 import { StatusBadge } from "./StatusBadge";
 
@@ -11,7 +12,7 @@ function CaseStudySection({ title, children }: { title: string; children: React.
   );
 }
 
-export function CaseStudy({ project }: { project: Project }) {
+export function CaseStudy({ project, children }: { project: Project; children?: ReactNode }) {
   return (
     <main id="main" className="case-study shell">
       <Link href="/#projects" className="back-link"><span aria-hidden="true">←</span> All projects</Link>
@@ -30,6 +31,7 @@ export function CaseStudy({ project }: { project: Project }) {
       </div>
 
       <div className="case-content">
+        {children}
         <CaseStudySection title="Overview"><p>{project.overview}</p></CaseStudySection>
         <CaseStudySection title="Engineering Challenge"><p>{project.challenge}</p></CaseStudySection>
         <CaseStudySection title={project.status === "completed" ? "Implemented Scope" : "Planned Scope"}>

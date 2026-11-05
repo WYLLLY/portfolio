@@ -1,9 +1,13 @@
 import Link from "next/link";
+import { ProjectRow } from "@/components/ProjectRow";
 import { StatusBadge } from "@/components/StatusBadge";
 import { projects } from "@/content/projects";
 import { site } from "@/content/site";
 
 const [payment, orders, ai, production] = projects;
+const analyzer = projects.find((project) => project.slug === "python-code-analyzer");
+const completedCount = projects.filter((project) => project.status === "completed").length;
+const developingCount = projects.length - completedCount;
 
 export default function Home() {
   return (
@@ -35,7 +39,7 @@ export default function Home() {
             <p className="home-section-index">01 / SELECTED WORK</p>
             <h2 id="projects-title">Systems, examined closely.</h2>
           </div>
-          <p>Two completed systems. Two projects in development.<br />All are personal engineering work.</p>
+          <p>{completedCount} completed projects. {developingCount} in development.<br />All are personal engineering work.</p>
         </div>
 
         <div className="home-project-grid">
@@ -83,6 +87,7 @@ export default function Home() {
             <span className="home-project-disclaimer">Planned operational layer</span>
           </Link>
         </div>
+        {analyzer ? <div className="project-list"><ProjectRow project={analyzer} index={4} /></div> : null}
       </section>
 
       <section className="home-engineering shell" id="engineering" aria-labelledby="engineering-title">
