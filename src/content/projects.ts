@@ -269,22 +269,94 @@ export const projects: Project[] = [
   },
 
   {
-    slug: "security-log-analyzer",
-    title: "Security Log Analyzer",
-    summary: "A planned offline Python CLI for identifying suspicious SSH authentication patterns in local Linux logs, with explainable alerts.",
-    focus: "Defensive security & log analysis",
-    status: "planned",
-    overview: "The intended tool will parse local SSH/OpenSSH logs, normalize authentication events and correlate them over configurable time windows. Planned stack: Python 3.14, pathlib, re, datetime, collections, Typer and Rich, with pytest, Ruff and mypy. Implementation has not started.",
-    challenge: "Incomplete timestamps, time zones and malformed lines make correlation uncertain. Detection rules need to explain their evidence and limits without claiming to detect every attack.",
-    scope: [
-      "M1: parse authentication events into a typed model containing timestamp, source IP, user, outcome and event type; use anonymized or synthetic fixtures.",
-      "M2: correlate repeated failures, attempts across multiple accounts and a successful login following many failures, using configurable time windows.",
-      "M3: produce terminal and JSON alerts with rule identifiers, severity and supporting events; document robustness, rules and CI."
+    "slug": "security-log-analyzer",
+    "title": "Security Log Analyzer",
+    "summary": "An offline Python CLI that turns Linux SSH logs into typed events, correlates suspicious authentication patterns and produces explainable terminal and JSON alerts.",
+    "focus": "Defensive security & temporal correlation",
+    "status": "in-development",
+    "completionNote": "All three milestones are implemented and independently reviewed. On 5 November 2026, 156 maintained tests passed with no failures, errors or skips; Ruff, formatting, strict mypy and Linux CI passed. M1 is merged; M2 and M3 remain in reviewed pull requests awaiting merge. The global review passed after a timestamp-classification fix. Source is private and available on request.",
+    "overview": "Security Log Analyzer is a small Python 3.14 tool for investigating local OpenSSH authentication logs. It reads traditional rsyslog and RFC 3339 files, normalizes events in UTC and applies three deterministic rules using configurable event-time windows. Typer provides the CLI and Rich provides the terminal report; the parser and detector operate independently of presentation and network services.",
+    "challenge": "A repeated error message is not necessarily another authentication attempt. Missing years, daylight-saving transitions, overlapping files and malformed lines can also distort correlation. The tool must preserve provenance and uncertainty, control memory growth and distinguish an incomplete analysis from a clean result.",
+    "scope": [
+      "M1 implements bounded UTF-8 file reading, anchored OpenSSH grammars, typed immutable events, explicit timestamp context and synthetic benign/suspicious fixtures.",
+      "M2 detects repeated failures from one host/IP, failures across distinct accounts, and a successful login after failures for the same host/IP/account. Windows, thresholds, method selection and evidence limits are explicit.",
+      "M3 adds an installed CLI, terminal and JSON schema 1.0 reports, SHA-256 source provenance, partial/fatal exit states, temporary alert spooling and atomic export without overwriting existing files.",
+      "Runtime stays local and strictly defensive: no server, SIEM, database, permanent agent, scanning, cloud integration or machine learning. Log content never becomes a command or a DNS/network request."
     ],
-    validation: [
-      "Use test-first development and known benign or simulated malicious scenarios to check expected alerts, false positives and missed detections.",
-      "Exercise incomplete timestamps, time zones, malformed lines and large files; stream input where appropriate and verify reproducible output.",
-      "Keep analysis offline and defensive: never execute commands from log content. No network agent, SIEM, web dashboard, machine learning or cloud integration is planned. No implementation or test result is claimed."
+    "validation": [
+      "156 maintained tests passed, with zero failures, errors or skipped cases. Separate independent reviews covered M3 and the complete M1–M3 pipeline, with confirmed findings fixed and rechecked.",
+      "The reference fixture produces exactly SSH-002 at source line 5, SSH-001 at line 10 and SSH-003 at line 11. Benign and boundary scenarios check expected alerts, false positives and missed detections on known synthetic inputs.",
+      "A separate M2 oracle used historical scans to check 500 scenarios of 500 events: 250,000 events matched on rule, trigger, counts and first timestamp. These independent probes are separate from the maintained test count.",
+      "Ruff lint/format, strict mypy, GitHub Actions on Ubuntu and installed-entrypoint tests passed. Memory checks compare 10,000 and 100,000 lines and verify fragmented rendering of 2,000 alerts."
+    ],
+    "verifiedSections": [
+      {
+        "title": "Architecture",
+        "paragraphs": [
+          "The pipeline separates file reading, timestamp policy, message parsing, chronological merging, expiring windows, detection and reporting. Events and alerts are immutable; the detector consumes iterables rather than opening files or depending on Typer/Rich. Small reader/writer protocols support composition without an unnecessary plugin framework.",
+          "Up to 32 sorted sources are merged with one event of lookahead per source. Authentication state uses expiring deques, counters and keyed windows. Alerts are spooled to a temporary file and serialized in fragments, so total log or report volume does not have to fit in memory."
+        ]
+      },
+      {
+        "title": "Data Model",
+        "paragraphs": [
+          "Each normalized event records UTC time, host, source IP, case-sensitive user, outcome, event type, authentication method, invalid-user context and source/line provenance. IP literals are validated without DNS. Raw lines and SSH key fingerprints are not copied into reports.",
+          "An alert records its rule/version, severity, correlation key, threshold/window, exact counts, trigger, observed period and supporting events. Evidence is capped at 20 events, with explicit truncation; the successful event is always retained for SSH-003. Diagnostics likewise preserve exact totals with at most 20 detailed examples."
+        ]
+      },
+      {
+        "title": "Engineering Decisions & Tradeoffs",
+        "paragraphs": [
+          "SSH-001 defaults to 10 failures in 300 seconds; SSH-002 to five distinct failed accounts in 600 seconds. Their windows include both endpoints, emit on threshold crossing and rearm after expiration below the threshold. A sustained burst does not create an alert for every additional failure.",
+          "SSH-003 defaults to success after five failures in 900 seconds for the same host/IP/account. Failures at the success timestamp are excluded because their order is unknown at that precision; a success closes the sequence. Password and keyboard-interactive failures count by default; public-key failures require explicit inclusion to reduce noise from legitimate key offers.",
+          "Traditional timestamps require an explicit year and IANA timezone, with no inference from the clock or file metadata and no implicit year rollover. Ambiguous or nonexistent local times are rejected. RFC 3339 offsets provide an explicit alternative; this deliberately favors reproducible interpretation over convenient guesses."
+        ]
+      },
+      {
+        "title": "Reliability & Security",
+        "paragraphs": [
+          "Invalid-user and PAM context messages are distinguished from canonical Failed messages to prevent double counting. Unknown SSH messages and rejected lines make the analysis partial; no supported events also yields a partial state. A partial report takes precedence over alerts, so an exit code cannot imply complete coverage after data loss.",
+          "Regular sources are opened without blocking on a FIFO, bounded to their initial byte size and hashed while read. Duplicate physical files are rejected by identity, and every source is checked again before publication. This detects ordinary changes; it is not a secure snapshot against an adversary controlling files and metadata.",
+          "Optional JSON export writes a temporary file, flushes it and publishes with an atomic link that fails if the destination already exists. Terminal values are inert Rich Text with control characters neutralized. Active failures and keys are capped; exceeding a limit stops analysis instead of dropping relevant evidence."
+        ]
+      },
+      {
+        "title": "Testing & Observability",
+        "paragraphs": [
+          "Behavioral Red, Green and Refactor evidence is retained by milestone. The CLI reference scenario is reproduced through an installed entrypoint, with pure JSON stdout, event-time boundaries, cross-file correlation, explicit public-key selection and reproducible bytes. Later characterization tests are identified without claiming retrospective Red evidence.",
+          "Exit codes distinguish complete/no alerts (0), complete/alerts (1), blocking errors (2) and partial analysis (3). Reports include effective parameters, source SHA-256 values, diagnostic counts, rule versions and event provenance. The tool needs no daemon or monitoring service."
+        ]
+      },
+      {
+        "title": "Performance Evidence",
+        "paragraphs": [
+          "One local benchmark processed 1,000,000 synthetic Accepted-publickey lines, totaling 94,000,000 bytes, in 9.60 seconds: approximately 104,158 lines/second with a 30.6 MB process peak RSS on macOS arm64/Python 3.14.6. It used one host/account, equal explicit UTC timestamps and no alerts.",
+          "This is a bounded-state benign workload, not a universal capacity claim or a test of real intrusion-detection effectiveness. Automated checks separately bound memory growth between 10,000 and 100,000 lines and restrict write fragments while rendering 2,000 alerts."
+        ]
+      },
+      {
+        "title": "Failure Experiments",
+        "paragraphs": [
+          "Independent review reproduced a FIFO opening that waited indefinitely for a writer. A failing subprocess regression preceded the nonblocking-open fix. Another review found that truncated terminal evidence hid the full detection period; a Red test preceded explicit display of detection time, observed period and trigger.",
+          "Global review found a malformed timestamp being mistaken for missing traditional time context, aborting an otherwise useful modern-format analysis. Two failing regressions preceded recognition of the timestamp grammar before requesting context. The reviewer confirmed partial JSON now preserves the valid event and exact invalid-timestamp diagnostic.",
+          "Additional probes combine two sources, invalid UTF-8 and a 70 KB line while preserving three expected alerts and complete file hashes. Late disorder and state-limit failures publish no misleading success JSON; output-race tests preserve a pre-existing destination."
+        ]
+      },
+      {
+        "title": "Lessons Learned",
+        "paragraphs": [
+          "The parsing boundary and error taxonomy are part of detection correctness. Treating a malformed record as a configuration error can suppress an entire investigation, while treating lost input as benign can make a clean report misleading.",
+          "Explainability must survive truncation: counts, windows, period and trigger cannot depend on the evidence sample alone. Independent review and synthetic counterexamples exposed these gaps even with a green suite."
+        ]
+      },
+      {
+        "title": "Limitations",
+        "paragraphs": [
+          "Three explicit rules cannot detect every attack. Slow or distributed activity, shared NAT/bastion addresses, missing or forged events, unknown OpenSSH variants, copied logs and timestamp precision limit conclusions. A success after failures can be legitimate; an alert is a lead for investigation, not proof of compromise.",
+          "Only the documented rsyslog/OpenSSH text formats are supported; not general RFC 5424, binary journald, journalctl JSON or compressed input. POSIX verification covers local macOS and Ubuntu CI, not Windows or production qualification. Synthetic false-positive/false-negative results do not establish real-world accuracy.",
+          "Source remains private, with access on request. This portfolio page describes verified local implementation and reviewed pull requests; it does not offer a hosted scanner, log upload service or public backend."
+        ]
+      }
     ]
   },
   {
