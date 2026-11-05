@@ -13,6 +13,7 @@ function CaseStudySection({ title, children }: { title: string; children: React.
 }
 
 export function CaseStudy({ project, children }: { project: Project; children?: ReactNode }) {
+  const hasVerifiedImplementation = project.status === "completed" || Boolean(project.completionNote);
   return (
     <main id="main" className="case-study shell">
       <Link href="/#projects" className="back-link"><span aria-hidden="true">←</span> All projects</Link>
@@ -25,7 +26,7 @@ export function CaseStudy({ project, children }: { project: Project; children?: 
 
       <div className="development-note">
         <span className="note-marker" aria-hidden="true" />
-        <p>{project.status === "completed"
+        <p>{hasVerifiedImplementation
           ? project.completionNote
           : project.status === "planned"
             ? "This project is planned. Implementation has not started. The sections below describe intended scope and future validation, with no completed work or test results claimed."
@@ -36,10 +37,10 @@ export function CaseStudy({ project, children }: { project: Project; children?: 
         {children}
         <CaseStudySection title="Overview"><p>{project.overview}</p></CaseStudySection>
         <CaseStudySection title="Engineering Challenge"><p>{project.challenge}</p></CaseStudySection>
-        <CaseStudySection title={project.status === "completed" ? "Implemented Scope" : "Planned Scope"}>
+        <CaseStudySection title={hasVerifiedImplementation ? "Implemented Scope" : "Planned Scope"}>
           <ul>{project.scope.map((item) => <li key={item}>{item}</li>)}</ul>
         </CaseStudySection>
-        <CaseStudySection title={project.status === "completed" ? "Verification Results" : "Validation Plan"}>
+        <CaseStudySection title={hasVerifiedImplementation ? "Verification Results" : "Validation Plan"}>
           <ul>{project.validation.map((item) => <li key={item}>{item}</li>)}</ul>
         </CaseStudySection>
         {project.verifiedSections?.map((section) => (
