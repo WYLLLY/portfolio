@@ -5,7 +5,7 @@ import styles from "./page.module.css";
 
 export const metadata: Metadata = {
   title: "CV | William Decatoire",
-  description: "English and French CVs for junior software engineering and Python backend roles, with links to four personal projects.",
+  description: "English and French CVs for junior Python developer roles, with links to four personal projects.",
   alternates: { canonical: "/cv" },
 };
 
@@ -23,7 +23,7 @@ export default function CvPage() {
       <header className={styles.header}>
         <p className="eyebrow">William Decatoire</p>
         <h1>Curriculum vitae</h1>
-        <p>Junior Software Engineer / Python Backend Developer<br />Paris, France</p>
+        <p>Junior Python Developer<br />Paris, France</p>
       </header>
       <section className={styles.section} aria-labelledby="cv-downloads">
         <h2 id="cv-downloads">Download my CV</h2>
