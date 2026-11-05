@@ -3,7 +3,7 @@ export type Project = {
   title: string;
   summary: string;
   focus: string;
-  status: "in-development" | "completed";
+  status: "in-development" | "completed" | "planned";
   completionNote?: string;
   overview: string;
   challenge: string;
@@ -265,6 +265,45 @@ export const projects: Project[] = [
           "AST parsing does not perform every compiler scoping check. Structural metrics are file-level heuristics, and the tool is not a resource-isolation sandbox for intentionally pathological sources. Local macOS and Ubuntu CI verification do not establish Windows compatibility."
         ]
       }
+    ]
+  },
+
+  {
+    slug: "security-log-analyzer",
+    title: "Security Log Analyzer",
+    summary: "A planned offline Python CLI for identifying suspicious SSH authentication patterns in local Linux logs, with explainable alerts.",
+    focus: "Defensive security & log analysis",
+    status: "planned",
+    overview: "The intended tool will parse local SSH/OpenSSH logs, normalize authentication events and correlate them over configurable time windows. Planned stack: Python 3.14, pathlib, re, datetime, collections, Typer and Rich, with pytest, Ruff and mypy. Implementation has not started.",
+    challenge: "Incomplete timestamps, time zones and malformed lines make correlation uncertain. Detection rules need to explain their evidence and limits without claiming to detect every attack.",
+    scope: [
+      "M1: parse authentication events into a typed model containing timestamp, source IP, user, outcome and event type; use anonymized or synthetic fixtures.",
+      "M2: correlate repeated failures, attempts across multiple accounts and a successful login following many failures, using configurable time windows.",
+      "M3: produce terminal and JSON alerts with rule identifiers, severity and supporting events; document robustness, rules and CI."
+    ],
+    validation: [
+      "Use test-first development and known benign or simulated malicious scenarios to check expected alerts, false positives and missed detections.",
+      "Exercise incomplete timestamps, time zones, malformed lines and large files; stream input where appropriate and verify reproducible output.",
+      "Keep analysis offline and defensive: never execute commands from log content. No network agent, SIEM, web dashboard, machine learning or cloud integration is planned. No implementation or test result is claimed."
+    ]
+  },
+  {
+    slug: "snapshot-backup-engine",
+    title: "Snapshot Backup Engine",
+    summary: "A planned local Python CLI for versioned, deduplicated backups using SHA-256 objects and SQLite snapshot manifests.",
+    focus: "Filesystems, storage & crash consistency",
+    status: "planned",
+    overview: "The intended tool will store file contents by SHA-256, share identical objects across snapshots and track metadata and manifests in SQLite. Planned stack: Python 3.14, pathlib, hashlib, sqlite3, shutil, Typer and Rich, with pytest, Ruff and mypy. Implementation has not started.",
+    challenge: "Object writes and snapshot publication must remain consistent after interruption. Restores must stay inside their destination, while source changes during reads limit the consistency that can be promised.",
+    scope: [
+      "M1: add the CLI, deterministic filesystem traversal and a content-addressed object store without modifying or deleting source files.",
+      "M2: add transactional SQLite manifests, snapshot listing, cross-snapshot deduplication and restoration into a designated destination.",
+      "M3: verify object integrity, detect missing or corrupt content and test recovery after interrupted writes; complete documentation and CI."
+    ],
+    validation: [
+      "Use test-first development and fault injection around temporary writes, integrity validation and atomic snapshot publication; never publish an incomplete snapshot.",
+      "Cover modified, renamed and deleted files, duplicate content, unsafe paths, symlinks and permissions. Verify that restoration cannot escape the destination.",
+      "Document concurrent source-change limits. Keep the tool local and compact: no cloud synchronization, distributed backup, encryption, complex compression or graphical interface. No implementation or test result is claimed."
     ]
   },
 
