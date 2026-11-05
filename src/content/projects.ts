@@ -216,6 +216,58 @@ export const projects: Project[] = [
     ],
   },
 
+  {
+    slug: "python-code-analyzer",
+    title: "Python Code Analyzer",
+    summary: "A Python developer tool that builds import graphs, detects static cycles and produces deterministic reports without executing the analyzed code.",
+    focus: "Static analysis & developer tooling",
+    status: "completed",
+    completionNote: "All three milestones are implemented and verified. On 5 November 2026, 682 maintained tests passed with no failures, errors or skips. Independent milestone and global reviews approved the final code; GitHub Actions verifies the source and an installed wheel under Python 3.14.6. Source is available on request.",
+    overview: "A modular Python 3.14 CLI uses the standard-library AST, Typer and Rich to inspect Python repositories. It maps files to module identities, resolves absolute and relative references where possible, finds cyclic components and reports structural complexity and internal coupling in the terminal or versioned JSON.",
+    challenge: "Static imports do not fully describe Python runtime behavior. A useful analyzer must preserve uncertainty around packages, namespace portions, from-import members and dynamic imports while keeping its graph, cycle witnesses and exports reproducible.",
+    scope: [
+      "Implemented deterministic discovery, Python-aware source decoding and AST parsing with partial results after local errors.",
+      "Built filesystem-only import resolution, provenance-preserving graphs and iterative Tarjan cycle detection with real directed witnesses.",
+      "Added explicit structural and coupling metrics, terminal rankings and deterministic JSON schema 1.0 with atomic source-protected export."
+    ],
+    validation: [
+      "682 maintained tests passed, with zero failures, errors or skips, both against the source and a wheel installed into a clean environment.",
+      "All 512 directed three-node graphs are checked against an independent reachability oracle; 3,000-node chain and cycle cases exercise iterative traversal.",
+      "Tests cover encodings, relative packages, root collisions, uncertain imports, moved repositories, process hash seeds, partial reports and source-file aliases during export.",
+      "Ruff, formatting, strict mypy and GitHub Actions passed. Separate subagents reviewed M3 and the complete M1–M3 implementation."
+    ],
+    verifiedSections: [
+      {
+        title: "Architecture",
+        paragraphs: [
+          "Discovery, parsing, indexing, import resolution, graph algorithms, metrics and reporting are separate typed modules. The core uses only the standard library; Typer and Rich remain at the command and presentation boundaries. Each AST is released after its facts and metrics are extracted.",
+          "Tarjan and witness reconstruction use explicit stacks. Graph traversal is linear in nodes and edges before ordering; source-root selection, prefix construction and report sorting have separately documented costs. No graph library or plugin framework is required."
+        ]
+      },
+      {
+        title: "Engineering Decisions & Tradeoffs",
+        paragraphs: [
+          "Module-name collisions and regular-package/namespace conflicts remain ambiguous instead of being decided by filesystem order. From-import submodules can be candidates alongside certain base references; all occurrences retain provenance. The graph represents explicit static references rather than simulating Python's loader.",
+          "Coupling counts distinct internal neighbors, excluding self references. Structural flags use documented decision and nesting rules, with unknown metrics retained as null after failed parsing. These heuristics help inspect code; they do not establish defect severity."
+        ]
+      },
+      {
+        title: "Testing & Observability",
+        paragraphs: [
+          "Behavioral Red, Green and Refactor evidence is retained for each milestone. Synthetic repositories verify file, graph and CLI contracts without importing their code. CI repeats the suite against an independently installed wheel and runs the documented demonstration.",
+          "Review identified a case-insensitive filesystem alias that could bypass source protection. A failing regression preceded the fix, which now checks file identity as well as paths. The reviewer repeated the original CLI reproduction and confirmed the source remained intact."
+        ]
+      },
+      {
+        title: "Limitations",
+        paragraphs: [
+          "Dynamic aliases, rebinding, re-exports and runtime path changes are not resolved. Standard-library classification does not validate every submodule. A reported cycle is structural, not a guaranteed runtime import failure; an incomplete graph cannot prove the absence of cycles.",
+          "AST parsing does not perform every compiler scoping check. Structural metrics are file-level heuristics, and the tool is not a resource-isolation sandbox for intentionally pathological sources. Local macOS and Ubuntu CI verification do not establish Windows compatibility."
+        ]
+      }
+    ]
+  },
+
 ];
 
 export function getProject(slug: string) {

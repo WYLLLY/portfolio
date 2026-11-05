@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { AnalyzerCaseStudy } from "@/components/AnalyzerCaseStudy";
 import { CaseStudy } from "@/components/CaseStudy";
 import { PaymentCaseStudy } from "@/components/PaymentCaseStudy";
 import { AICaseStudy } from "@/components/AICaseStudy";
@@ -44,5 +45,6 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   if (!project) notFound();
   if (project.slug === "payment-ledger-system") return <PaymentCaseStudy project={project} />;
   if (project.slug === "ai-task-execution-platform") return <AICaseStudy project={project} />;
+  if (project.slug === "python-code-analyzer") return <AnalyzerCaseStudy project={project} />;
   return <CaseStudy project={project} />;
 }

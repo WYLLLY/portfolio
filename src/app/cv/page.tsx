@@ -4,11 +4,12 @@ import styles from "./page.module.css";
 
 export const metadata: Metadata = {
   title: "CV | William Decatoire",
-  description: "English and French CVs for junior software engineering and Python backend roles, with links to three personal projects.",
+  description: "English and French CVs for junior software engineering and Python backend roles, with links to four personal projects.",
   alternates: { canonical: "/cv" },
 };
 
 const repositories = [
+  { slug: "python-code-analyzer", title: "Python Code Analyzer", detail: "Static import graphs, iterative cycle detection and deterministic JSON reports. 682 tests; source available on request." },
   { slug: "payment-ledger-system", title: "Payment & Ledger System", detail: "Immutable double-entry ledger, atomic transfers and recoverable payments with a simulated provider." },
   { slug: "ai-task-execution-platform", title: "AI Task Execution Platform", detail: "Durable task execution, bounded tools, cost accounting and event streaming. Provider verification uses simulations." },
   { slug: "fraud-detection-ml-service", title: "Fraud Detection ML Service", detail: "Synthetic-risk model comparison and local inference API. Experimental results do not establish real fraud accuracy." },
@@ -32,12 +33,12 @@ export default function CvPage() {
         </div>
       </section>
       <section className={styles.section} aria-labelledby="cv-projects">
-        <h2 id="cv-projects">Explore the source code</h2>
-        <p>Three personal engineering projects, with public repositories.</p>
+        <h2 id="cv-projects">Explore the projects</h2>
+        <p>Four personal engineering projects. Public repositories are linked where available.</p>
         <ul className={styles.projects}>
           {repositories.map((project) => (
             <li key={project.slug}>
-              <a href={`https://github.com/WYLLLY/${project.slug}`}>{project.title} <span aria-hidden="true">↗</span></a>
+              <a href={project.slug === "python-code-analyzer" ? "/projects/python-code-analyzer" : `https://github.com/WYLLLY/${project.slug}`}>{project.title} <span aria-hidden="true">↗</span></a>
               <p>{project.detail}</p>
             </li>
           ))}
