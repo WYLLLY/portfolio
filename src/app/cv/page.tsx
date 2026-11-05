@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { site } from "@/content/site";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
@@ -31,6 +32,11 @@ export default function CvPage() {
           <a href="/cv/William_Decatoire_CV_EN.pdf" download lang="en">English CV <span>PDF ↗</span></a>
           <a href="/cv/William_Decatoire_CV_FR.pdf" download lang="fr">CV français <span>PDF ↗</span></a>
         </div>
+      </section>
+      <section className={styles.section} aria-labelledby="cv-certification-goals">
+        <h2 id="cv-certification-goals">Certification goals</h2>
+        <p>Target certifications; not yet earned.</p>
+        <ul className={styles.projects}>{site.certificationGoals.map((goal) => <li key={goal.code}><a href={goal.href}>{goal.code} — {goal.title}</a></li>)}</ul>
       </section>
       <section className={styles.section} aria-labelledby="cv-projects">
         <h2 id="cv-projects">Explore the projects</h2>

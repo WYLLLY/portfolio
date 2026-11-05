@@ -27,7 +27,9 @@ export function CaseStudy({ project, children }: { project: Project; children?: 
         <span className="note-marker" aria-hidden="true" />
         <p>{project.status === "completed"
           ? project.completionNote
-          : "This project is in development. The sections below describe its intended scope and validation plan. Implementation evidence will be added as the work progresses."}</p>
+          : project.status === "planned"
+            ? "This project is planned. Implementation has not started. The sections below describe intended scope and future validation, with no completed work or test results claimed."
+            : "This project is in development. The sections below describe its intended scope and validation plan. Implementation evidence will be added as the work progresses."}</p>
       </div>
 
       <div className="case-content">

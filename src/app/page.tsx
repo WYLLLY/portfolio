@@ -5,9 +5,10 @@ import { projects } from "@/content/projects";
 import { site } from "@/content/site";
 
 const [payment, orders, ai, production] = projects;
-const analyzer = projects.find((project) => project.slug === "python-code-analyzer");
+const additionalProjects = projects.slice(4);
 const completedCount = projects.filter((project) => project.status === "completed").length;
-const developingCount = projects.length - completedCount;
+const developingCount = projects.filter((project) => project.status === "in-development").length;
+const plannedCount = projects.filter((project) => project.status === "planned").length;
 
 export default function Home() {
   return (
@@ -39,7 +40,7 @@ export default function Home() {
             <p className="home-section-index">01 / SELECTED WORK</p>
             <h2 id="projects-title">Systems, examined closely.</h2>
           </div>
-          <p>{completedCount} completed projects. {developingCount} in development.<br />All are personal engineering work.</p>
+          <p>{completedCount} completed projects. {developingCount} in development. {plannedCount} planned.<br />All are personal engineering work.</p>
         </div>
 
         <div className="home-project-grid">
@@ -87,7 +88,7 @@ export default function Home() {
             <span className="home-project-disclaimer">Planned operational layer</span>
           </Link>
         </div>
-        {analyzer ? <div className="project-list"><ProjectRow project={analyzer} index={4} /></div> : null}
+        <div className="project-list">{additionalProjects.map((project, index) => <ProjectRow key={project.slug} project={project} index={index + 4} />)}</div>
       </section>
 
       <section className="home-engineering shell" id="engineering" aria-labelledby="engineering-title">
@@ -100,6 +101,7 @@ export default function Home() {
           <div className="home-capabilities" aria-label="Engineering skills">
             <div><h3>Backend focus</h3><p>FastAPI, PostgreSQL, SQLAlchemy, Redis, and asynchronous processing. My work spans API design, data modeling, transactions, concurrency, idempotency, authentication, testing, and distributed-system fundamentals.</p></div>
             <div><h3>Engineering workflow</h3><p>Git, Docker, pytest, Ruff, mypy, GitHub Actions, and AI coding agents such as Codex. I use approved specifications, test-first implementation, independent code review, and verification against real PostgreSQL and Redis.</p></div>
+            <div><h3>Certification goals</h3><p>Targeting {site.certificationGoals.map((goal, index) => <span key={goal.code}>{index > 0 ? " and " : ""}<a className="inline-link" href={goal.href}>{goal.code} — {goal.title}</a></span>)}. These are goals, not certifications already earned.</p></div>
             <div><h3>Currently developing</h3><p>I am building practical experience with message queues, observability, cloud infrastructure, Terraform, Kubernetes, and production operations.</p></div>
           </div>
         </div>
