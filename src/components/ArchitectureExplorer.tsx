@@ -25,13 +25,19 @@ type ArchitectureExplorerProps = {
   scenarios: Record<ScenarioKey, ArchitectureScenario>;
   flowLabel: string;
   scenarioLabel: string;
+  scenarioLabels?: Readonly<Record<ScenarioKey, string>>;
   traceLabel: string;
   description: string;
   note: string;
 };
 
+const defaultScenarioLabels: Readonly<Record<ScenarioKey, string>> = {
+  success: "Success", failure: "Failure", timeout: "Timeout",
+};
+
 export function ArchitectureExplorer({
   nodes, initialNodeId, scenarios, flowLabel, scenarioLabel, traceLabel, description, note,
+  scenarioLabels = defaultScenarioLabels,
 }: ArchitectureExplorerProps) {
   const [scenario, setScenario] = useState<ScenarioKey>("success");
   const [selectedNode, setSelectedNode] = useState(initialNodeId);
@@ -66,7 +72,7 @@ export function ArchitectureExplorer({
         <div className="ledger-scenario-buttons" role="group" aria-label={scenarioLabel}>
           {(["success", "failure", "timeout"] as const).map((key) => (
             <button key={key} type="button" aria-pressed={scenario === key} onClick={() => setScenario(key)}>
-              {key === "success" ? "Success" : key === "failure" ? "Failure" : "Timeout"}
+              {scenarioLabels[key]}
             </button>
           ))}
         </div>
@@ -74,8 +80,8 @@ export function ArchitectureExplorer({
       <div className="ledger-scenario-result" aria-live="polite">
         <div className="ledger-scenario-lead"><span>{activeScenario.eyebrow}</span><h4>{activeScenario.heading}</h4><p>{description}</p></div>
         <div className="ledger-scenario-demo">
-          <div className="ledger-demo-chrome"><span><i aria-hidden="true" /> {traceLabel}</span><span>BEHAVIOR MAP / {scenario.toUpperCase()}</span></div>
-          <ol className="ledger-demo-lines" aria-label={`${scenario} behavior map`}>
+          <div className="ledger-demo-chrome"><span><i aria-hidden="true" /> {traceLabel}</span><span>BEHAVIOR MAP / {scenarioLabels[scenario].toUpperCase()}</span></div>
+          <ol className="ledger-demo-lines" aria-label={`${scenarioLabels[scenario]} behavior map`}>
             {activeScenario.trace.map((line, index) => <li key={line}><span>{String(index + 1).padStart(2, "0")}</span><code>{line}</code></li>)}
           </ol>
           <div className="ledger-demo-state"><span>FINAL STATE</span><strong>{activeScenario.outcome}</strong></div>
