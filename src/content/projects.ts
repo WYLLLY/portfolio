@@ -288,24 +288,66 @@ export const projects: Project[] = [
     ]
   },
   {
-    slug: "snapshot-backup-engine",
-    title: "Snapshot Backup Engine",
-    summary: "A planned local Python CLI for versioned, deduplicated backups using SHA-256 objects and SQLite snapshot manifests.",
-    focus: "Filesystems, storage & crash consistency",
-    status: "planned",
-    overview: "The intended tool will store file contents by SHA-256, share identical objects across snapshots and track metadata and manifests in SQLite. Planned stack: Python 3.14, pathlib, hashlib, sqlite3, shutil, Typer and Rich, with pytest, Ruff and mypy. Implementation has not started.",
-    challenge: "Object writes and snapshot publication must remain consistent after interruption. Restores must stay inside their destination, while source changes during reads limit the consistency that can be promised.",
-    scope: [
-      "M1: add the CLI, deterministic filesystem traversal and a content-addressed object store without modifying or deleting source files.",
-      "M2: add transactional SQLite manifests, snapshot listing, cross-snapshot deduplication and restoration into a designated destination.",
-      "M3: verify object integrity, detect missing or corrupt content and test recovery after interrupted writes; complete documentation and CI."
-    ],
-    validation: [
-      "Use test-first development and fault injection around temporary writes, integrity validation and atomic snapshot publication; never publish an incomplete snapshot.",
-      "Cover modified, renamed and deleted files, duplicate content, unsafe paths, symlinks and permissions. Verify that restoration cannot escape the destination.",
-      "Document concurrent source-change limits. Keep the tool local and compact: no cloud synchronization, distributed backup, encryption, complex compression or graphical interface. No implementation or test result is claimed."
-    ]
+      "slug": "snapshot-backup-engine",
+      "title": "Snapshot Backup Engine",
+      "summary": "A completed Python CLI for versioned, deduplicated local backups, with SHA-256 content storage, SQLite manifests and tested interruption recovery.",
+      "focus": "Filesystems, storage & crash consistency",
+      "status": "completed",
+      "completionNote": "All three milestones are implemented and merged. Verified on 6 November 2026: 89 maintained tests passed with zero failures, errors or skips. Ruff, strict mypy and GitHub Actions passed on Ubuntu and macOS. Independent final review approved the corrected implementation. Source code remains private.",
+      "overview": "A compact Python 3.14 CLI creates complete, independent snapshots of a local directory. File bytes live in an immutable SHA-256 content-addressed store; SQLite records paths, permissions, modification times and versioned manifests. Typer and Rich provide backup, listing, restore, integrity verification and recovery commands. There is no application server or network service.",
+      "challenge": "SQLite cannot atomically commit filesystem writes with its own transaction. The engine must make validated objects durable before publishing their references, retain old snapshots through interrupted backups and prevent restoration paths or file aliases from changing source data.",
+      "scope": [
+          "Implemented deterministic filesystem traversal, bounded hashing and content-addressed object storage with temporary writes, revalidation and publication without overwriting existing objects.",
+          "Built complete SQLite manifests, transactional publication, cross-snapshot deduplication and restoration into a new, confined destination. Renames reuse content; deleted files remain available in older snapshots.",
+          "Added object and manifest integrity checks, conservative recovery, process locking, transactional schema migration and explicit handling of missing or corrupt data.",
+          "Documented the installed CLI demonstration and retained test-first evidence, independent reviews and a Python 3.14 CI matrix for Ubuntu and macOS."
+      ],
+      "validation": [
+          "89 maintained tests passed after the final merge, with 0 failures, 0 errors and 0 skipped tests. Ruff lint/format, strict mypy and installed CLI checks passed; merged-main CI passed on Ubuntu and macOS.",
+          "Real files and on-disk SQLite tests cover deduplication, modified/renamed/deleted files, permissions, unsafe paths, symlinks, migrations, constraints and inter-process locking.",
+          "Barrier-controlled SIGKILL tests interrupt backup at ten checkpoints, restoration at two checkpoints and recovery during cleanup. I/O fault injection covers ENOSPC, EACCES, EIO, partial writes and temporary-content corruption.",
+          "The installed CLI demonstration produced three snapshots backed by three distinct objects and restored two historical versions successfully. Global and snapshot-scoped verification and repeated recovery passed."
+      ],
+      "verifiedSections": [
+          {
+              "title": "Architecture",
+              "paragraphs": [
+                  "The CLI delegates to backup, restore and maintenance operations. Filesystem primitives, the content store and SQLite catalog have separate responsibilities. Objects are stored under a two-character hash prefix; each snapshot has a full manifest rather than a chain of incremental deltas.",
+                  "Commands serialize through a local process lock. SQLite uses STRICT tables, foreign keys enabled per connection, explicit transactions, a rollback journal and synchronous=EXTRA. A single commit publishes the complete manifest after referenced objects and their directory entries have been synchronized."
+              ]
+          },
+          {
+              "title": "Engineering Decisions & Tradeoffs",
+              "paragraphs": [
+                  "Deduplication operates on whole-file SHA-256 contents. Every backup reads and hashes all source files instead of trusting size and modification time as an identity cache. This favors a compact, inspectable implementation over incremental scanning or chunk-level efficiency.",
+                  "An interrupted backup may leave valid unreferenced objects. Recovery keeps those objects and removes only recognized temporary files; a subsequent backup can reuse durable content. There is no automatic object repair, snapshot deletion, retention policy or garbage collection."
+              ]
+          },
+          {
+              "title": "Reliability & Security",
+              "paragraphs": [
+                  "Symlinks and special files are rejected, and sensitive filesystem operations use no-follow opens and directory descriptors. Restore requires a new destination and places its temporary files inside that destination. Restored files never share an inode with source files or the object store.",
+                  "Final review reproduced a source hardlink to the SQLite database being changed by a backup commit. A failing regression preceded the correction: the database and its existing sidecars must be regular files with a single link before SQLite opens or recovers them. Additional regressions align missing or unsafe object-storage roots with integrity errors."
+              ]
+          },
+          {
+              "title": "Failure Experiments",
+              "paragraphs": [
+                  "Before publication, a killed process can leave temporary or orphaned objects while SQLite rolls back the uncommitted manifest. After commit but before the success response, the complete snapshot remains present. Tests reopen the repository, repeat recovery and restore historical data in a fresh process.",
+                  "Independent reviews identified and verified fixes for directory synchronization on retry, descriptor leaks on I/O or transaction-start failure, SQLite corruption classification and source-file aliases. Behavioral Red/Green traces are retained; green regressions added for existing behavior are not presented as retrospective Red evidence."
+              ]
+          },
+          {
+              "title": "Limitations",
+              "paragraphs": [
+                  "Supported scope is Linux and macOS on a local filesystem, with a trusted account and stable roots. Active sources are not captured at one global instant: identity and metadata checks detect many changes but cannot guarantee application-level consistency across files.",
+                  "Restoration is atomic per file, so an interrupted restore may leave a partial destination. Only ordinary permission bits and modification times are preserved; owners, ACLs, extended attributes, symlinks and sparse layout are excluded.",
+                  "SIGKILL tests demonstrate process-interruption handling, not physical power-loss durability. Filesystem and hardware synchronization behavior still matters. No throughput benchmark, production recovery SLA, encryption, compression, cloud synchronization or public hosted backup service is claimed."
+              ]
+          }
+      ]
   },
+
 
 ];
 
