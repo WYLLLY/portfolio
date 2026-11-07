@@ -506,6 +506,12 @@ h1, h2, h3, p { margin-top: 0; }
 .home-more-heading p { max-width: 390px; margin: 0; color: var(--home-muted); font-size: 13px; line-height: 1.5; }
 .home-page .project-list { border-top: 0; }
 .home-page .project-row { min-height: 138px; }
+.home-page .home-core-list .project-heading { font-size: clamp(24px, 2.8vw, 31px); }
+.home-additional-heading { margin-top: clamp(55px, 7vw, 95px); }
+.home-page .home-additional-list .project-row { min-height: 108px; padding-block: 22px; }
+.home-page .home-additional-list .project-heading { font-size: clamp(19px, 2.2vw, 23px); }
+.home-page .home-additional-list .project-summary { margin-top: 6px; font-size: 13px; }
+.home-page .home-additional-list .project-focus { margin-top: 10px; }
 .workspace-boundaries { margin: 0 0 65px; padding: clamp(24px, 5vw, 48px); border: 1px solid #394741; background: #111713; }
 .workspace-boundaries-heading { display: grid; grid-template-columns: 1fr 1fr; gap: 0 50px; align-items: end; margin-bottom: 38px; }
 .workspace-boundaries-heading .eyebrow { grid-column: 1 / -1; }

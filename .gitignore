@@ -7,3 +7,4 @@ out
 !.env.example
 *.tsbuildinfo
 .DS_Store
+cv-source/render-*/

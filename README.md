@@ -23,7 +23,7 @@ pnpm build
 
 ## Update project content
 
-Edit `src/content/projects.ts`. Add verified claims only when architecture, tests, measurements or incidents are supported by the corresponding project. Use `status: "completed"` and a `completionNote` only for a finished, verified project. Keep branch-only work labeled as in development. Add a repository URL only when it is publicly accessible. Replace PDFs under `public/cv/` from the verified CV output files and check their hashes.
+Edit `src/content/projects.ts`. Add verified claims only when architecture, tests, measurements or incidents are supported by the corresponding project. Use `status: "completed"` and a `completionNote` only for a finished, verified project. Keep branch-only work labeled as in development. Add a repository URL only when it is publicly accessible. The bilingual, seven-project CV source and editable DOCX files are in `cv-source/`; regenerate them with `python cv-source/build_cv.py`, render the DOCX files to one-page A4 PDFs, and replace the files under `public/cv/` after visual and link checks.
 
 ## Deploy
 

@@ -34,9 +34,19 @@ export default function CvPage() {
       </section>
       <section className={styles.section} aria-labelledby="cv-projects">
         <h2 id="cv-projects">Explore the projects</h2>
-        <p>Seven personal engineering projects. Each study distinguishes verified work from work still in development.</p>
+        <p>Four principal case studies and three focused tools. Each page distinguishes verified work from work still in development.</p>
+        <h3 className={styles.groupHeading}>Principal projects</h3>
         <ul className={styles.projects}>
-          {projects.map((project) => (
+          {projects.slice(0, 4).map((project) => (
+            <li key={project.slug}>
+              <Link href={`/projects/${project.slug}`}>{project.title} <span aria-hidden="true">↗</span></Link>
+              <p>{project.summary}</p>
+            </li>
+          ))}
+        </ul>
+        <h3 className={styles.groupHeading}>Additional work</h3>
+        <ul className={`${styles.projects} ${styles.additionalProjects}`}>
+          {projects.slice(4).map((project) => (
             <li key={project.slug}>
               <Link href={`/projects/${project.slug}`}>{project.title} <span aria-hidden="true">↗</span></Link>
               <p>{project.summary}</p>

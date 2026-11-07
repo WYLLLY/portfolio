@@ -5,7 +5,8 @@ import { projects } from "@/content/projects";
 import { site } from "@/content/site";
 
 const [payment, ai] = projects;
-const additionalProjects = projects.slice(2);
+const coreProjects = projects.slice(2, 4);
+const additionalProjects = projects.slice(4);
 const completedCount = projects.filter((project) => project.status === "completed").length;
 const developingCount = projects.filter((project) => project.status === "in-development").length;
 
@@ -75,8 +76,10 @@ export default function Home() {
           </Link>
 
         </div>
-        <div className="home-more-heading"><span>03—07 / MORE ENGINEERING WORK</span><p>Five further studies across ML, SaaS architecture, developer tooling, security and storage.</p></div>
-        <div className="project-list">{additionalProjects.map((project, index) => <ProjectRow key={project.slug} project={project} index={index + 2} />)}</div>
+        <div className="home-more-heading"><span>03—04 / CORE SYSTEMS</span><p>Applied ML and tenant isolation, examined through their engineering boundaries.</p></div>
+        <div className="project-list home-core-list">{coreProjects.map((project, index) => <ProjectRow key={project.slug} project={project} index={index + 2} />)}</div>
+        <div className="home-more-heading home-additional-heading"><span>05—07 / ADDITIONAL WORK</span><p>Three focused tools for code analysis, defensive log analysis and local backups.</p></div>
+        <div className="project-list home-additional-list">{additionalProjects.map((project, index) => <ProjectRow key={project.slug} project={project} index={index + 4} />)}</div>
       </section>
 
       <section className="home-engineering shell" id="engineering" aria-labelledby="engineering-title">
