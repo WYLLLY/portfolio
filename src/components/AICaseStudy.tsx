@@ -42,7 +42,7 @@ export function AICaseStudy({ project }: { project: Project }) {
 
         <header className="ledger-hero">
           <div className="ledger-hero-main">
-            <p className="ledger-kicker">03 / PERSONAL ENGINEERING PROJECT</p>
+            <p className="ledger-kicker">02 / PERSONAL ENGINEERING PROJECT</p>
             <h1>AI Task<br />Execution <em>Platform.</em></h1>
             <p className="ledger-deck">An AI backend designed around what survives a worker crash, a lost response, or a model call whose cost is still unknown.</p>
           </div>
