@@ -27,19 +27,17 @@ export function CaseStudy({ project, children }: { project: Project; children?: 
         <span className="note-marker" aria-hidden="true" />
         <p>{project.status === "completed"
           ? project.completionNote
-          : project.status === "planned"
-            ? "This project is planned. Implementation has not started. The sections below describe intended scope and future validation, with no completed work or test results claimed."
-            : "This project is in development. The sections below describe its intended scope and validation plan. Implementation evidence will be added as the work progresses."}</p>
+          : "This project is in development. The sections below distinguish implemented work from changes still under review; unmerged work is not presented as a finished release."}</p>
       </div>
 
       <div className="case-content">
         {children}
         <CaseStudySection title="Overview"><p>{project.overview}</p></CaseStudySection>
         <CaseStudySection title="Engineering Challenge"><p>{project.challenge}</p></CaseStudySection>
-        <CaseStudySection title={project.status === "completed" ? "Implemented Scope" : "Planned Scope"}>
+        <CaseStudySection title={project.status === "completed" ? "Implemented Scope" : "Current Work & Next Steps"}>
           <ul>{project.scope.map((item) => <li key={item}>{item}</li>)}</ul>
         </CaseStudySection>
-        <CaseStudySection title={project.status === "completed" ? "Verification Results" : "Validation Plan"}>
+        <CaseStudySection title={project.status === "completed" ? "Verification Results" : "Verification & Next Steps"}>
           <ul>{project.validation.map((item) => <li key={item}>{item}</li>)}</ul>
         </CaseStudySection>
         {project.verifiedSections?.map((section) => (
