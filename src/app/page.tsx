@@ -4,11 +4,10 @@ import { StatusBadge } from "@/components/StatusBadge";
 import { projects } from "@/content/projects";
 import { site } from "@/content/site";
 
-const [payment, orders, ai, production] = projects;
-const additionalProjects = projects.slice(4);
+const [payment, ai] = projects;
+const additionalProjects = projects.slice(2);
 const completedCount = projects.filter((project) => project.status === "completed").length;
 const developingCount = projects.filter((project) => project.status === "in-development").length;
-const plannedCount = projects.filter((project) => project.status === "planned").length;
 
 export default function Home() {
   return (
@@ -40,7 +39,7 @@ export default function Home() {
             <p className="home-section-index">01 / SELECTED WORK</p>
             <h2 id="projects-title">Systems, examined closely.</h2>
           </div>
-          <p>{completedCount} completed projects. {developingCount} in development. {plannedCount} planned.<br />All are personal engineering work.</p>
+          <p>{completedCount} completed projects. {developingCount} in development.<br />All are personal engineering work.</p>
         </div>
 
         <div className="home-project-grid">
@@ -68,27 +67,16 @@ export default function Home() {
             </div>
           </Link>
 
-          <Link className="home-order-project home-project-link" href={"/projects/" + orders.slug}>
-            <div className="home-card-overline"><span>02 / DISTRIBUTED SYSTEMS</span><StatusBadge status={orders.status} /></div>
-            <div className="home-order-graphic" aria-hidden="true"><span>order</span><span>inventory</span><span>payment</span><span>fulfillment</span></div>
-            <div className="home-card-bottom"><div><h3>{orders.title}</h3><p>{orders.summary}</p></div><span className="home-link-arrow" aria-hidden="true">↗</span></div>
-            <span className="home-project-disclaimer">Planned workflow / resilient processing</span>
-          </Link>
-
           <Link className="home-ai-project home-project-link" href={"/projects/" + ai.slug}>
-            <div className="home-card-overline"><span>03 / AI BACKEND</span><StatusBadge status={ai.status} /></div>
+            <div className="home-card-overline"><span>02 / AI BACKEND</span><StatusBadge status={ai.status} /></div>
             <div className="home-ai-graphic" aria-hidden="true"><span>queued</span><span className="home-ai-active">running<span className="home-ai-pulse" /></span><span>succeeded</span></div>
             <div className="home-card-bottom"><div><h3>{ai.title}</h3><p>{ai.summary}</p></div><span className="home-link-arrow" aria-hidden="true">↗</span></div>
             <span className="home-project-disclaimer">828 tests passed / durable execution</span>
           </Link>
 
-          <Link className="home-production-project home-project-link" href={"/projects/" + production.slug}>
-            <div className="home-production-heading"><span>04 / PRODUCTION ENGINEERING</span><StatusBadge status={production.status} /></div>
-            <div className="home-production-body"><div><h3>{production.title}</h3><p>{production.summary}</p></div><div className="home-production-steps" aria-hidden="true"><span>Build</span><span>Observe</span><span>Recover</span></div><span className="home-link-arrow" aria-hidden="true">↗</span></div>
-            <span className="home-project-disclaimer">Planned operational layer</span>
-          </Link>
         </div>
-        <div className="project-list">{additionalProjects.map((project, index) => <ProjectRow key={project.slug} project={project} index={index + 4} />)}</div>
+        <div className="home-more-heading"><span>03—07 / MORE ENGINEERING WORK</span><p>Five further studies across ML, SaaS architecture, developer tooling, security and storage.</p></div>
+        <div className="project-list">{additionalProjects.map((project, index) => <ProjectRow key={project.slug} project={project} index={index + 2} />)}</div>
       </section>
 
       <section className="home-engineering shell" id="engineering" aria-labelledby="engineering-title">
@@ -97,12 +85,12 @@ export default function Home() {
           <p>Systems are shaped by the decisions that remain sound when conditions change.</p>
         </div>
         <div className="home-engineering-grid">
-          <p className="home-engineering-intro">I focus on backend engineering with Python, building reliable APIs and data-intensive systems.</p>
+          <p className="home-engineering-intro">I build backend systems with Python and Java, with a focus on correctness, isolation and recovery.</p>
           <div className="home-capabilities" aria-label="Engineering skills">
-            <div><h3>Backend focus</h3><p>FastAPI, PostgreSQL, SQLAlchemy, Redis, and asynchronous processing. My work spans API design, data modeling, transactions, concurrency, idempotency, authentication, testing, and distributed-system fundamentals.</p></div>
-            <div><h3>Engineering workflow</h3><p>Git, Docker, pytest, Ruff, mypy, GitHub Actions, and AI coding agents such as Codex. I use approved specifications, test-first implementation, independent code review, and verification against real PostgreSQL and Redis.</p></div>
+            <div><h3>Backend focus</h3><p>FastAPI, Spring Boot, PostgreSQL, SQLAlchemy, Redis and asynchronous processing. My projects cover API design, data modeling, transactions, concurrency, authentication, tenant isolation and recovery.</p></div>
+            <div><h3>Engineering workflow</h3><p>Git, Docker, pytest, Ruff, mypy, Pyright, Maven, GitHub Actions and AI coding agents such as Codex. I use approved specifications, test-first implementation, independent code review, and verification against real PostgreSQL and Redis.</p></div>
             <div><h3>Certification goals</h3><p>Targeting {site.certificationGoals.map((goal, index) => <span key={goal.code}>{index > 0 ? " and " : ""}<a className="inline-link" href={goal.href}>{goal.code} — {goal.title}</a></span>)}. These are goals, not certifications already earned.</p></div>
-            <div><h3>Currently developing</h3><p>I am building practical experience with message queues, observability, cloud infrastructure, Terraform, Kubernetes, and production operations.</p></div>
+            <div><h3>Currently developing</h3><p>I am extending my work in observability, cloud infrastructure and production operations. No public production deployment or unverified certification is claimed.</p></div>
           </div>
         </div>
       </section>

@@ -5,6 +5,7 @@ import { AnalyzerCaseStudy } from "@/components/AnalyzerCaseStudy";
 import { CaseStudy } from "@/components/CaseStudy";
 import { PaymentCaseStudy } from "@/components/PaymentCaseStudy";
 import { AICaseStudy } from "@/components/AICaseStudy";
+import { WorkspaceCaseStudy } from "@/components/WorkspaceCaseStudy";
 import { getProject, projects } from "@/content/projects";
 import { site } from "@/content/site";
 import { getSiteUrl } from "@/content/site-url";
@@ -23,7 +24,7 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
   if (!project) return {};
 
   const title = `${project.title} | ${site.name}`;
-  const description = `${project.status === "completed" ? "A completed" : project.status === "planned" ? "A planned" : "An in-development"} personal engineering project. ${project.summary}`;
+  const description = `${project.status === "completed" ? "A completed" : "An in-development"} personal engineering project. ${project.summary}`;
   const siteUrl = getSiteUrl();
   const path = `/projects/${slug}`;
 
@@ -46,6 +47,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   if (!project) notFound();
   if (project.slug === "payment-ledger-system") return <PaymentCaseStudy project={project} />;
   if (project.slug === "ai-task-execution-platform") return <AICaseStudy project={project} />;
+  if (project.slug === "workspace-saas-platform") return <WorkspaceCaseStudy project={project} />;
   if (project.slug === "python-code-analyzer") return <AnalyzerCaseStudy project={project} />;
   if (project.slug === "snapshot-backup-engine") return <SnapshotCaseStudy project={project} />;
   return <CaseStudy project={project} />;

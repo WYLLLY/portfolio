@@ -1,6 +1,6 @@
 # William Decatoire — Portfolio
 
-A personal Software and Backend Engineering portfolio built with Next.js and TypeScript. Payment & Ledger System is complete through M6 and AI Task Execution Platform through M7; the other two projects remain in development. Each page separates planned scope from verified implementation evidence. The case studies document 317 passing Payment tests and 828 passing AI Platform tests on their respective merged backend revisions. Both keep source private and distinguish synthetic verification from production or live-provider qualification.
+A personal Software and Backend Engineering portfolio built with Next.js and TypeScript. Seven project pages cover Payment & Ledger, AI Task Execution, Fraud Detection ML, Workspace SaaS, Python Code Analyzer, Security Log Analyzer and Snapshot Backup Engine. Each page distinguishes merged implementation and recorded verification from work still under review. The CV page offers the current English and French PDFs; its visible interface remains in English.
 
 ## Run locally
 
@@ -23,7 +23,7 @@ pnpm build
 
 ## Update project content
 
-Edit `src/content/projects.ts`. Keep descriptions of planned work in future tense. Add a verified section only after its architecture, tests, measurements, or incident results are supported by the actual project. Use `status: "completed"` and a dated `completionNote` only when completion is verified; `scope` and `validation` then render as implemented work and results. Add a repository URL only when the project repository is publicly accessible.
+Edit `src/content/projects.ts`. Add verified claims only when architecture, tests, measurements or incidents are supported by the corresponding project. Use `status: "completed"` and a `completionNote` only for a finished, verified project. Keep branch-only work labeled as in development. Add a repository URL only when it is publicly accessible. Replace PDFs under `public/cv/` from the verified CV output files and check their hashes.
 
 ## Deploy
 
