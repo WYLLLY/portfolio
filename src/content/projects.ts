@@ -3,7 +3,7 @@ export type Project = {
   title: string;
   summary: string;
   focus: string;
-  status: "in-development" | "completed" | "planned";
+  status: "in-development" | "completed";
   completionNote?: string;
   overview: string;
   challenge: string;
@@ -83,28 +83,6 @@ export const projects: Project[] = [
           "Production load, backup restoration, host or disk loss, and dependency vulnerabilities have not been independently qualified. Additional composed review probes are not all retained as CI regressions.",
         ],
       },
-    ],
-  },
-  {
-    slug: "event-driven-order-processing",
-    title: "Event-Driven Order Processing",
-    summary:
-      "Building an asynchronous order workflow to study duplicate messages and partial failures.",
-    focus: "Distributed systems",
-    status: "in-development",
-    overview:
-      "This personal project will accept orders through an API and coordinate inventory, payment, fulfillment, and notification through asynchronous processing.",
-    challenge:
-      "Independent workers can fail at different points. A useful system must preserve understandable order state despite repeated or out-of-order events, slow dependencies, and backlogs.",
-    scope: [
-      "Model order transitions and durable event publication without assuming one-time message delivery.",
-      "Make consumers safe to retry and define bounded retries, failure handling, and backlog behavior.",
-      "Carry correlation context across work so a single order can be followed through the system.",
-    ],
-    validation: [
-      "Crash a worker during processing and verify that unfinished work can be recovered.",
-      "Deliver duplicate and out-of-order messages and inspect resulting order state.",
-      "Slow payment, fail notification, and build a queue backlog to test recovery and throughput limits.",
     ],
   },
   {
@@ -194,28 +172,58 @@ export const projects: Project[] = [
     ],
   },
   {
-    slug: "production-platform",
-    title: "Production Platform",
-    summary:
-      "Developing the deployment, observability, and operational layer for the backend projects above.",
-    focus: "Production reliability",
-    status: "in-development",
-    overview:
-      "This personal project will make the other backend systems reproducible, deployable, observable, and recoverable in a production-like environment. Each infrastructure component will be included for a documented reason.",
-    challenge:
-      "A service is only useful in operation if deployments are safe, failures are visible, capacity limits are understood, and recovery steps can be practiced.",
+    slug: "fraud-detection-ml-service",
+    title: "Fraud Detection ML Service",
+    summary: "A local inference service and synthetic-risk experiment with validation-led model selection and a read-only Payment integration.",
+    focus: "ML engineering & safe inference",
+    status: "completed",
+    completionNote: "Three milestones are merged on the project main branch. The experiment uses synthetic observations and a simulated payment system. Its scores are not evidence of real fraud detection, and the container image is not qualified for production.",
+    overview: "A Python service trains and compares logistic regression with a small CPU MLP on 60,000 synthetic observations. The selected preprocessing, model and threshold form a versioned bundle served by a local FastAPI scoring endpoint. A read-only client can score a fictional Payment record without changing financial state.",
+    challenge: "A synthetic evaluation can look convincing while leaking labels or overfitting model selection. The system must keep generator probabilities out of features, fit preprocessing only on training data, freeze the validation rule before test evaluation and keep scoring separate from payment authorization.",
     scope: [
-      "Establish reproducible environments, automated checks, deployment health signals, and safe migration practices.",
-      "Connect logs, metrics, and traces to operational questions and service objectives.",
-      "Document capacity limits, rollback, backups, and incident response with real measurements and exercises.",
+      "Built reproducible synthetic data, stratified splits, train-only preprocessing, model comparison and validation-only selection.",
+      "Implemented strict local HTTP inference from a trusted versioned bundle, with bounded CPU work and safe error handling.",
+      "Integrated a read-only Payment scoring client; scoring cannot authorize, reject or modify a payment or ledger entry."
     ],
     validation: [
-      "Provoke unhealthy instances, connection exhaustion, worker backlog, and dependency timeouts.",
-      "Measure latency, throughput, and resource use under repeatable load scenarios.",
-      "Practice a bad deployment rollback and a basic recovery procedure, then record the observed outcome.",
+      "The project records local unit, model and HTTP parity checks; its evaluation is limited to synthetic labels.",
+      "The Payment integration was exercised against the local API with unchanged payment and ledger-history snapshots.",
+      "The inherited container image has recorded HIGH vulnerabilities. No clean-image, public deployment or real-fraud accuracy claim is made."
     ],
+    verifiedSections: [
+      { title: "Architecture", paragraphs: ["Training and model selection are offline. The local FastAPI service loads a trusted bundle at startup; the Payment client reads an existing fictional payment and sends only permitted features for scoring."] },
+      { title: "Engineering Decisions & Tradeoffs", paragraphs: ["Validation, rather than the final test set, chooses the model and threshold. The logistic regression baseline remained selected when the MLP did not cross the predefined validation improvement margin.", "The scoring boundary has no Payment write credentials or financial execution path. A risk score is advisory, not a transaction decision."] },
+      { title: "Limitations", paragraphs: ["Synthetic labels do not establish real-world fraud precision, recall or usefulness. The image scan remains unresolved for inherited OS packages, so the service is a local engineering project rather than a production deployment."] }
+    ],
+    repository: "https://github.com/WYLLLY/fraud-detection-ml-service"
   },
-
+  {
+    slug: "workspace-saas-platform",
+    title: "Workspace — Multi-Tenant SaaS Platform",
+    summary: "A completed Java/Spring Boot workspace with tenant-isolated projects, versioned tasks, secure sessions and tested recovery procedures.",
+    focus: "Java backend & tenant isolation",
+    status: "completed",
+    completionNote: "M1–M4 are merged on the project main branch. The local and CI verification covers the implemented workspace, HTTPS delivery and closed recovery. No public cloud deployment, external SMTP delivery or production SLA is claimed.",
+    overview: "A Java 21/Spring Boot modular monolith serves account access, organizations, projects and task workspaces through a React frontend. PostgreSQL owns tenant state, sessions and a durable email outbox. A same-origin Nginx proxy provides the documented HTTPS delivery path.",
+    challenge: "A multi-tenant service must keep authorization current across concurrent ownership, membership and task changes. Failed releases and restores must not revive stale sessions, permissions or email work.",
+    scope: [
+      "Implemented verified account registration, cookie sessions, organizations, invitations and a durable encrypted email outbox.",
+      "Built tenant-isolated projects, collaborators, versioned tasks, assignment, archives and an access-scoped dashboard.",
+      "Added separate migrations, HTTPS proxy delivery, bounded HTTP/SQL work, internal health and observability, runbooks and closed restore procedures."
+    ],
+    validation: [
+      "The post-merge audit records 152 backend tests, 20 frontend tests, five operator tests and 12 real HTTPS browser tests passing in its corrective regression.",
+      "Direct PostgreSQL checks cover grants, row-level security, ownership constraints, concurrency, migration and restored-state authorization.",
+      "A separate readiness regression reproduces a missing runtime privilege and verifies the corrected readiness response. CI checks the full stack, proxy isolation and recovery."
+    ],
+    verifiedSections: [
+      { title: "Architecture", paragraphs: ["The Java application is a modular monolith. Spring services and internal repositories keep use cases and persistence boundaries explicit; ArchUnit checks module dependencies. PostgreSQL enforces tenant-composite references and row-level security, while the application enforces roles and project visibility.", "Nginx provides one same-origin TLS entry point. A dedicated migration process owns Flyway V001–V008; the web runtime has no migration or recovery credentials. The email worker claims durable work before SMTP calls and commits completion afterward."] },
+      { title: "Data Model", paragraphs: ["Organizations contain memberships and projects; project collaborators constrain task visibility and assignment. Immediate composite foreign keys carry organization scope, while explicit version checks protect task edits from silent overwrites."] },
+      { title: "Engineering Decisions & Tradeoffs", paragraphs: ["Tenant context is transaction-local and established by the server. Authorization is reread after lock waits so a revoked member cannot act on stale permission. PostgreSQL row-level security adds a database boundary without replacing application-level role checks.", "Restoration stays closed until newer independent identity, owner, permission and catalog evidence is reconciled. An old backup does not become authority merely because its rows can be restored."] },
+      { title: "Reliability & Security", paragraphs: ["Session authorization uses a separate registry to prevent delayed persistence or cookies from reviving a revoked login. An encrypted transactional outbox fences email claims; SMTP acceptance can still be duplicated after a crash.", "Readiness checks the web runtime's current positive privileges and migration state. Liveness remains independent. Failures are sanitized, and internal management is not published through the proxy."] },
+      { title: "Limitations", paragraphs: ["The verified delivery is local and in CI. Real external SMTP, public certificates, off-host encrypted backup storage and remote deployment remain operator responsibilities. The evidence does not establish production capacity, availability or disaster-recovery objectives."] }
+    ]
+  },
   {
     slug: "python-code-analyzer",
     title: "Python Code Analyzer",
@@ -271,39 +279,45 @@ export const projects: Project[] = [
   {
     slug: "security-log-analyzer",
     title: "Security Log Analyzer",
-    summary: "A planned offline Python CLI for identifying suspicious SSH authentication patterns in local Linux logs, with explainable alerts.",
+    summary: "An offline Python CLI that turns SSH authentication logs into explainable defensive alerts; later reporting work remains under review.",
     focus: "Defensive security & log analysis",
-    status: "planned",
-    overview: "The intended tool will parse local SSH/OpenSSH logs, normalize authentication events and correlate them over configurable time windows. Planned stack: Python 3.14, pathlib, re, datetime, collections, Typer and Rich, with pytest, Ruff and mypy. Implementation has not started.",
-    challenge: "Incomplete timestamps, time zones and malformed lines make correlation uncertain. Detection rules need to explain their evidence and limits without claiming to detect every attack.",
+    status: "in-development",
+    overview: "This Python 3.14 CLI parses local SSH/OpenSSH logs into typed authentication events and evaluates explainable patterns. It runs offline against synthetic fixtures and does not execute or block anything based on log content.",
+    challenge: "Timestamps, malformed records, shared IPs and incomplete logs limit what can be inferred from authentication events. Alerts must carry source evidence and communicate uncertainty rather than claim a confirmed compromise.",
     scope: [
-      "M1: parse authentication events into a typed model containing timestamp, source IP, user, outcome and event type; use anonymized or synthetic fixtures.",
-      "M2: correlate repeated failures, attempts across multiple accounts and a successful login following many failures, using configurable time windows.",
-      "M3: produce terminal and JSON alerts with rule identifiers, severity and supporting events; document robustness, rules and CI."
+      "M1 parsing is merged. M2 correlation and M3 reporting exist on feature branches and are not yet merged into the project main branch.",
+      "The implemented direction covers repeated failures, attempts across accounts and success after failures, with configurable windows and explicit alert evidence.",
+      "Next: complete review and integration of the later milestones before presenting the CLI as a finished release."
     ],
     validation: [
-      "Use test-first development and known benign or simulated malicious scenarios to check expected alerts, false positives and missed detections.",
-      "Exercise incomplete timestamps, time zones, malformed lines and large files; stream input where appropriate and verify reproducible output.",
-      "Keep analysis offline and defensive: never execute commands from log content. No network agent, SIEM, web dashboard, machine learning or cloud integration is planned. No implementation or test result is claimed."
+      "Local verification reports cover synthetic benign and detection fixtures, malformed timestamps and bounded-memory scenarios.",
+      "M2 and M3 branch checks do not constitute a merged release. Recheck the final main revision and review findings before marking this project completed.",
+      "The analyzer cannot infer intent, detect every attack or compensate for missing, forged or delayed logs."
     ]
   },
   {
     slug: "snapshot-backup-engine",
     title: "Snapshot Backup Engine",
-    summary: "A planned local Python CLI for versioned, deduplicated backups using SHA-256 objects and SQLite snapshot manifests.",
-    focus: "Filesystems, storage & crash consistency",
-    status: "planned",
-    overview: "The intended tool will store file contents by SHA-256, share identical objects across snapshots and track metadata and manifests in SQLite. Planned stack: Python 3.14, pathlib, hashlib, sqlite3, shutil, Typer and Rich, with pytest, Ruff and mypy. Implementation has not started.",
-    challenge: "Object writes and snapshot publication must remain consistent after interruption. Restores must stay inside their destination, while source changes during reads limit the consistency that can be promised.",
+    summary: "A local Python backup CLI with deduplicated SHA-256 objects, SQLite snapshot manifests and tested restore and integrity paths.",
+    focus: "Storage & crash consistency",
+    status: "completed",
+    completionNote: "M1–M3 and the final review corrections are merged on the project main branch. Local tests and Ubuntu/macOS CI passed. The engine is local-only and does not claim cloud backup or protection from physical power loss.",
+    overview: "A Python 3.14 CLI stores file content once in a local SHA-256 content-addressed store and records complete versioned snapshot manifests in SQLite. It supports backup, restore, integrity verification and recovery without modifying the source tree.",
+    challenge: "Filesystem objects and a SQL manifest cannot commit as one atomic transaction. Interrupted writes, corrupt objects, alias paths and restore destinations must be handled so incomplete snapshots are not silently presented as valid.",
     scope: [
-      "M1: add the CLI, deterministic filesystem traversal and a content-addressed object store without modifying or deleting source files.",
-      "M2: add transactional SQLite manifests, snapshot listing, cross-snapshot deduplication and restoration into a designated destination.",
-      "M3: verify object integrity, detect missing or corrupt content and test recovery after interrupted writes; complete documentation and CI."
+      "Implemented deterministic traversal, content-addressed storage, transactional snapshot manifests, restore and integrity verification.",
+      "Added crash recovery, inter-process locking, path and alias protections, and explicit error handling for missing or unsafe object roots.",
+      "Kept the engine offline and local, without cloud synchronization, distributed storage or a graphical interface."
     ],
     validation: [
-      "Use test-first development and fault injection around temporary writes, integrity validation and atomic snapshot publication; never publish an incomplete snapshot.",
-      "Cover modified, renamed and deleted files, duplicate content, unsafe paths, symlinks and permissions. Verify that restoration cannot escape the destination.",
-      "Document concurrent source-change limits. Keep the tool local and compact: no cloud synchronization, distributed backup, encryption, complex compression or graphical interface. No implementation or test result is claimed."
+      "Final-review regression records 89 local tests passed with no failures, errors or skips; Ruff, strict mypy and package checks passed.",
+      "Tests use real files and SQLite, inter-process contention, injected I/O failures and controlled SIGKILL. Ubuntu and macOS CI passed for the corrective revision.",
+      "Independent review reproduced hardlink and CAS-root defects, then confirmed the focused corrections and full regression."
+    ],
+    verifiedSections: [
+      { title: "Architecture", paragraphs: ["A CLI coordinates backup, restore and maintenance services over a local filesystem, content-addressed object store and SQLite catalog. Each snapshot has a complete manifest; identical content shares objects across snapshots."] },
+      { title: "Engineering Decisions & Tradeoffs", paragraphs: ["Object writes and manifest publication are staged so a failed operation cannot advertise an incomplete snapshot. The engine verifies content and refuses unsafe catalog or object roots rather than attempting silent repair.", "The source can change while it is read, so a snapshot is not a globally atomic view of an active directory. Restore is atomic per file, not for the entire destination tree."] },
+      { title: "Limitations", paragraphs: ["Only local POSIX filesystems with the required hardlink, locking and directory-sync semantics are supported. Windows and network/FUSE filesystems are outside the verified scope. SIGKILL tests do not prove resilience to physical power loss."] }
     ]
   },
 
