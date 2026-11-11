@@ -40,7 +40,7 @@ export default function Home() {
             <p className="home-section-index">01 / SELECTED WORK</p>
             <h2 id="projects-title">Systems, examined closely.</h2>
           </div>
-          <p>{completedCount} completed projects. {developingCount} in development. {plannedCount} planned.<br />All are personal engineering work.</p>
+          <p>{completedCount} completed projects. {developingCount} in development. {plannedCount} planned.<br />All are personal engineering work.<br /><Link href="/maintenance" className="inline-link">November maintenance reports</Link></p>
         </div>
 
         <div className="home-project-grid">
@@ -79,7 +79,7 @@ export default function Home() {
             <div className="home-card-overline"><span>03 / AI BACKEND</span><StatusBadge status={ai.status} /></div>
             <div className="home-ai-graphic" aria-hidden="true"><span>queued</span><span className="home-ai-active">running<span className="home-ai-pulse" /></span><span>succeeded</span></div>
             <div className="home-card-bottom"><div><h3>{ai.title}</h3><p>{ai.summary}</p></div><span className="home-link-arrow" aria-hidden="true">↗</span></div>
-            <span className="home-project-disclaimer">828 tests passed / durable execution</span>
+            <span className="home-project-disclaimer">832 tests passed / durable execution</span>
           </Link>
 
           <Link className="home-production-project home-project-link" href={"/projects/" + production.slug}>

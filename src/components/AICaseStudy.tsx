@@ -56,9 +56,9 @@ export function AICaseStudy({ project }: { project: Project }) {
 
         <div className="ledger-fact-strip" aria-label="Verified project facts">
           <div><strong>07</strong><span>MILESTONES MERGED</span></div>
-          <div><strong>828</strong><span>MAINTAINED TESTS PASSED</span></div>
+          <div><strong>832</strong><span>MAINTAINED TESTS PASSED</span></div>
           <div><strong>0</strong><span>SUITE FAILURES / ERRORS / SKIPS</span></div>
-          <div><strong>28 OCT 2026</strong><span>VERIFIED ON MAIN</span></div>
+          <div><strong>11 NOV 2026</strong><span>REGRESSION VERIFIED</span></div>
         </div>
 
         <section className="ledger-section ledger-intro" aria-labelledby="ai-intro-title">
@@ -92,13 +92,13 @@ export function AICaseStudy({ project }: { project: Project }) {
         </section>
 
         <section className="ledger-section ledger-evidence" aria-labelledby="ai-evidence-title">
-          <div className="ledger-section-heading"><p className="ledger-section-index">04 / ENGINEERING EVIDENCE</p><div><h2 id="ai-evidence-title">Verified behavior,<br /><em>visible limits.</em></h2><p>Results from merged main, verified on 28 October 2026. Independent post-merge code review: APPROVE. Source is publicly available on GitHub.</p></div></div>
+          <div className="ledger-section-heading"><p className="ledger-section-index">04 / ENGINEERING EVIDENCE</p><div><h2 id="ai-evidence-title">Verified behavior,<br /><em>visible limits.</em></h2><p>The November maintenance revision passed its backend regression, independent review, and GitHub Actions.</p></div></div>
           <div className="ledger-evidence-grid">
-            <div className="ledger-test-count"><strong>828</strong><span>TESTS PASSED</span><p>268 unit · 560 integration<br />0 failed · 0 errors · 0 skipped</p><small>Real PostgreSQL &amp; Redis</small></div>
+            <div className="ledger-test-count"><strong>832</strong><span>TESTS PASSED</span><p>270 unit · 562 integration<br />0 failed · 0 errors · 0 skipped</p><small>Real PostgreSQL &amp; Redis</small></div>
             <div className="ledger-evidence-list">{evidence.map((item, index) => <div key={item.label}><span>0{index + 1}</span><h3>{item.label}</h3><p>{item.detail}</p></div>)}</div>
           </div>
           <p className="ledger-evidence-footnote"><a href="https://github.com/WYLLLY/ai-task-execution-platform">View source on GitHub ↗</a></p>
-          <p className="ledger-evidence-footnote">Ruff, formatting, mypy, and GitHub Actions passed. The 828-case suite uses synthetic providers. Paid OpenAI smoke is separately SKIPPED: distinct paid authorization and a spending cap were absent.</p>
+          <p className="ledger-evidence-footnote">Ruff, formatting, mypy, and GitHub Actions passed. The suite uses synthetic providers. The paid OpenAI smoke test was outside the verification scope.</p>
           <p className="ledger-evidence-footnote">M3–M7 retain behavioral Red/Green evidence. M1/M2 test-first chronology remains unverified under a documented, owner-accepted exception.</p>
         </section>
 

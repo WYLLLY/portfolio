@@ -115,7 +115,7 @@ export const projects: Project[] = [
     focus: "AI backend infrastructure",
     status: "completed",
     completionNote:
-      "All seven milestones are complete and merged. Verified on 28 October 2026: 828 tests passed on merged main, with 0 failures, 0 errors, and 0 skipped tests. GitHub Actions passed and an independent post-merge code review approved the implementation. Verification uses synthetic providers; paid OpenAI smoke remains skipped. Source code is publicly available on GitHub.",
+      "All seven milestones are complete and merged. The November maintenance rerun passed 832 backend tests, GitHub Actions, and independent review. Verification uses synthetic providers. The repository is public.",
     overview:
       "A Python monolith exposes a FastAPI API, background workers, and an administrative CLI. It persists versioned document-analysis workflows, streams owner-scoped progress over SSE, and records external calls and accounting evidence. A direct HTTPX adapter implements the OpenAI Responses protocol; a separate demo report service exercises the remote-effect boundary.",
     challenge:
@@ -127,7 +127,7 @@ export const projects: Project[] = [
       "Added bounded SSE, Redis degradation handling, private observability, retention, encrypted restore drills, quarantine, and explicit delivery preflight.",
     ],
     validation: [
-      "828 maintained tests passed after merge: 268 unit and 560 integration, with 0 failed, 0 errors, and 0 skipped. Ruff, formatting, mypy, and main-branch CI passed.",
+      "The November rerun passed 270 unit and 562 integration tests with zero failures, errors, or skips. Ruff, formatting, mypy, and GitHub Actions passed.",
       "Real PostgreSQL and Redis checks cover migrations, allowed and forbidden privileges, observed lock contention, idempotency, stale workers, lost commit acknowledgements, crashes, and recovery.",
       "The synthetic reference campaign completed 1,000 of 1,000 tasks with 100 concurrent SSE connections, 10,016 reads, zero nominal stream errors, and no duplicate simulated effects.",
       "Independent post-merge review found no new material defect. Live OpenAI smoke was separately skipped because no distinct paid authorization and spending cap were provided.",
@@ -138,7 +138,7 @@ export const projects: Project[] = [
         paragraphs: [
           "Taskroom adds a Next.js workspace for exploring tasks, steps, reports, and confirmed, estimated, or uncertain costs. Sample preview works locally without credentials or Docker; all example outcomes and costs are labelled illustrative. Optional Local API mode reads the existing owner's real task state through a server-side gateway.",
           "The extension is pushed to a draft pull request and remains under review. On 29 October 2026, 14 frontend tests, TypeScript, ESLint, formatting, build, and frontend CI passed; a fresh 828-case backend regression and backend CI also passed. Independent security/reliability review approved the scoped local code. Full test-first chronology of visual UI interactions remains unverified.",
-          "This is a free local/repository delivery, with no public hosted demo or paid model calls. Server-side creation is restricted to the simulated analysis:1 workflow. Admission and dispatch remain closed in the verified local setup; positive create/cancel and autonomous report execution through the UI have not been demonstrated. Source is public; local use requires Node.js 24 and pnpm. No API key is entered in the browser.",
+          "In November, a disposable local stack verified queued creation, replay, and cancellation of a simulated analysis:1 task through the built server-side gateway. Dispatch stayed closed during this exercise. The extension runs locally with Node.js 24 and pnpm. The browser never receives the owner credential.",
         ],
       },
       {
@@ -271,20 +271,21 @@ export const projects: Project[] = [
   {
     slug: "security-log-analyzer",
     title: "Security Log Analyzer",
-    summary: "A planned offline Python CLI for identifying suspicious SSH authentication patterns in local Linux logs, with explainable alerts.",
+    summary: "An offline Python CLI for identifying suspicious SSH authentication patterns in local Linux logs, with explainable alerts.",
     focus: "Defensive security & log analysis",
-    status: "planned",
-    overview: "The intended tool will parse local SSH/OpenSSH logs, normalize authentication events and correlate them over configurable time windows. Planned stack: Python 3.14, pathlib, re, datetime, collections, Typer and Rich, with pytest, Ruff and mypy. Implementation has not started.",
+    status: "completed",
+    completionNote: "All three milestones are merged. November verification passed 156 tests, an independent alert oracle and a one-million-line synthetic workload. Source code is private.",
+    overview: "This Python 3.14 CLI parses local OpenSSH logs, normalizes authentication events to UTC, and correlates them over configurable time windows. Typer and Rich provide the terminal interface. JSON reports contain rule identifiers, source references and supporting events.",
     challenge: "Incomplete timestamps, time zones and malformed lines make correlation uncertain. Detection rules need to explain their evidence and limits without claiming to detect every attack.",
     scope: [
-      "M1: parse authentication events into a typed model containing timestamp, source IP, user, outcome and event type; use anonymized or synthetic fixtures.",
-      "M2: correlate repeated failures, attempts across multiple accounts and a successful login following many failures, using configurable time windows.",
-      "M3: produce terminal and JSON alerts with rule identifiers, severity and supporting events; document robustness, rules and CI."
+      "Parse rsyslog envelopes with traditional or RFC 3339 timestamps into typed SSH authentication events.",
+      "Correlate repeated failures, failures across distinct accounts, and successful logins following repeated failures. Merge chronologically ordered input files with stable tie-breaking.",
+      "Produce terminal and deterministic JSON reports with evidence, diagnostics, explicit partial results, and atomic report publication."
     ],
     validation: [
-      "Use test-first development and known benign or simulated malicious scenarios to check expected alerts, false positives and missed detections.",
-      "Exercise incomplete timestamps, time zones, malformed lines and large files; stream input where appropriate and verify reproducible output.",
-      "Keep analysis offline and defensive: never execute commands from log content. No network agent, SIEM, web dashboard, machine learning or cloud integration is planned. No implementation or test result is claimed."
+      "All 156 maintained tests passed. A reference model independently matched alert rules, triggers, counts, and windows across 90,000 synthetic events.",
+      "CLI checks covered partial reports, exact alerts, and preserving an existing output file. The one-million-line benchmark used a single benign, bounded-state workload.",
+      "Analysis runs locally and offline. Accuracy on real-world logs was outside the validation scope."
     ]
   },
   {
