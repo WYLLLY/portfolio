@@ -10,6 +10,7 @@ export const metadata: Metadata = {
 };
 
 const repositories = [
+  { slug: "python-dsa", title: "Python DSA", detail: "30 typed Python problems across 12 categories, with reasoning, complexity analysis and 207 passing pytest tests. Test-first development and CI on Python 3.12–3.14." },
   { slug: "python-code-analyzer", title: "Python Code Analyzer", detail: "Static import graphs, iterative cycle detection and deterministic JSON reports. 682 tests; source available on request." },
   { slug: "payment-ledger-system", title: "Payment & Ledger System", detail: "Immutable double-entry ledger, atomic transfers and recoverable payments with a simulated provider." },
   { slug: "ai-task-execution-platform", title: "AI Task Execution Platform", detail: "Durable task execution, bounded tools, cost accounting and event streaming. Provider verification uses simulations." },
@@ -27,7 +28,7 @@ export default function CvPage() {
       </header>
       <section className={styles.section} aria-labelledby="cv-downloads">
         <h2 id="cv-downloads">Download my CV</h2>
-        <p>One A4 page. Available in English and French.</p>
+        <p>One A4 page. Available in English and French. Includes Python DSA and good working proficiency in Linux.</p>
         <div className={styles.downloads}>
           <a href="/cv/William_Decatoire_CV_EN.pdf" download lang="en">English CV <span>PDF ↗</span></a>
           <a href="/cv/William_Decatoire_CV_FR.pdf" download lang="fr">CV français <span>PDF ↗</span></a>
@@ -40,7 +41,7 @@ export default function CvPage() {
       </section>
       <section className={styles.section} aria-labelledby="cv-projects">
         <h2 id="cv-projects">Explore the projects</h2>
-        <p>Four personal engineering projects. Public repositories are linked where available.</p>
+        <p>Five personal engineering projects. Public repositories are linked where available.</p>
         <ul className={styles.projects}>
           {repositories.map((project) => (
             <li key={project.slug}>
