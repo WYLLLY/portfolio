@@ -23,6 +23,12 @@ export type Project = {
       | "Local Interface";
     paragraphs: string[];
   }[];
+  sectionLabels?: {
+    overview?: string;
+    challenge?: string;
+    scope?: string;
+    validation?: string;
+  };
   repository?: string;
 };
 
@@ -353,45 +359,30 @@ export const projects: Project[] = [
     slug: "python-dsa",
     title: "Python DSA",
     summary:
-      "Thirty typed Python algorithm problems with step-by-step reasoning, complexity analysis and a test-first workflow across 12 categories.",
+      "A collection of 30 Python problems to practise the patterns behind arrays, trees, graphs and dynamic programming.",
     focus: "Algorithms & problem solving",
     status: "completed",
     completionNote:
-      "Completed and merged on 24 November 2026. All 207 pytest tests passed with zero failures or skips; Ruff, strict mypy and GitHub Actions passed on Python 3.12, 3.13 and 3.14. Source is publicly available on GitHub.",
+      "30 exercises, from Easy to Hard. Each one includes a typed Python solution, an explanation and tests. The full collection is available on GitHub.",
     overview:
-      "A study collection of 30 problems: 9 Easy, 17 Medium and 4 Hard. Each exercise combines a rewritten statement, explicit input contract, typed Python implementation, reasoning, time and space complexity, and pytest tests. The repository includes a study progression and canonical problem attribution.",
+      "I put this collection together to work on the fundamentals: searching, grouping values, traversing structures and keeping track of state. The aim is to be able to explain why a solution works and when to use it. Each problem has a rewritten statement, a walkthrough and notes on time and space complexity.",
     challenge:
-      "Recognizing a pattern is only a starting point. Each solution must justify its invariant, handle boundaries and duplicates, preserve inputs where promised, and explain the tradeoff from a simple baseline to an efficient algorithm.",
+      "The useful part is often a small decision: which pointer can move, what belongs in the stack, or which previous result is worth keeping. The explanations focus on those decisions. Working through duplicates, empty inputs and boundary cases helps make the reasoning precise.",
     scope: [
-      "Covered Arrays, Hash Maps, Two Pointers, Sliding Window, Stack, Linked Lists, Binary Search, Trees, Graphs, Heaps, Greedy and Dynamic Programming.",
-      "Implemented prefix/suffix products, monotonic stacks and deques, iterative tree and graph traversals, topological sorting, heap selection and dynamic-programming frontiers.",
-      "Documented mutation, tie-breaking and invalid-input contracts. Linked-list solutions reuse nodes; the other functions preserve their inputs.",
-      "Committed the structure and all 30 planned problems first, then recorded four Red/Green batches before formatting and focused refactoring.",
+      "Arrays and hash maps, two pointers and sliding windows: finding useful information without repeatedly scanning the same values.",
+      "Stacks, linked lists, binary search, trees and graphs: following links, keeping the right traversal order and knowing which candidates can be discarded.",
+      "Heaps, greedy methods and dynamic programming: choosing what to keep now and what information will matter for the next step.",
     ],
     validation: [
-      "207 maintained pytest tests passed with 0 failures and 0 skips, including examples, boundary cases and exhaustive small-input comparisons with brute-force oracles.",
-      "Tests exercise every rotation of small sorted arrays, linked-list node and value preservation, and iterative traversal of trees 2,000 levels deep.",
-      "Ruff lint and formatting, strict mypy, editable installation and wheel construction passed. The full 207-test suite also passed against installed wheel imports.",
-      "Independent review reported 18,797 additional oracle comparisons passing. Two minor documentation and test findings were corrected and rechecked; these temporary probes are separate from the 207 maintained tests.",
-      "GitHub Actions passed on the merged main commit for Python 3.12, 3.13 and 3.14.",
+      "Each exercise has pytest examples and edge cases. The collection has 207 passing tests, with checks running on Python 3.12, 3.13 and 3.14.",
+      "For several problems, a simple brute-force solution acts as a reference on small inputs. It makes mistakes in an optimized solution easier to spot, especially around repeated values and window boundaries.",
     ],
-    verifiedSections: [
-      {
-        title: "Engineering Decisions & Tradeoffs",
-        paragraphs: [
-          "Solutions are grouped by learning pattern and share only minimal linked-list and tree nodes. Explicit loops and standard-library collections keep the invariants visible; the project avoids framework dependencies for algorithm execution.",
-          "A slower reference implementation is useful as a test oracle. Exhaustive checks cover small input domains, while iterative traversals avoid Python recursion-depth limits. Complexity statements distinguish auxiliary memory from output storage and note arbitrary-size integer costs.",
-        ],
-      },
-      {
-        title: "Limitations",
-        paragraphs: [
-          "This is an educational algorithm library, not a deployed backend or a production performance benchmark. Small exhaustive domains and passing tests supplement the reasoning but do not prove correctness for every possible input.",
-          "Sortedness, finite acyclic trees and disjoint linked lists are documented preconditions, not runtime-validated guarantees. The third historical Red batch ran on Python 3.14; Python 3.12 annotation compatibility was added in Green.",
-          "Statements, implementations and explanations were independently written for the repository with Codex assistance. Canonical LeetCode links identify problem inspiration; no external solution code was copied.",
-        ],
-      },
-    ],
+    sectionLabels: {
+      overview: "Why I made this",
+      challenge: "What takes practice",
+      scope: "The patterns covered",
+      validation: "Checking the solutions",
+    },
     repository: "https://github.com/WYLLLY/python-dsa",
   },
 
