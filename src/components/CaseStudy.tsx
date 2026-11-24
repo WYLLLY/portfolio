@@ -34,12 +34,12 @@ export function CaseStudy({ project, children }: { project: Project; children?: 
 
       <div className="case-content">
         {children}
-        <CaseStudySection title="Overview"><p>{project.overview}</p></CaseStudySection>
-        <CaseStudySection title="Engineering Challenge"><p>{project.challenge}</p></CaseStudySection>
-        <CaseStudySection title={project.status === "completed" ? "Implemented Scope" : "Planned Scope"}>
+        <CaseStudySection title={project.sectionLabels?.overview ?? "Overview"}><p>{project.overview}</p></CaseStudySection>
+        <CaseStudySection title={project.sectionLabels?.challenge ?? "Engineering Challenge"}><p>{project.challenge}</p></CaseStudySection>
+        <CaseStudySection title={project.sectionLabels?.scope ?? (project.status === "completed" ? "Implemented Scope" : "Planned Scope")}>
           <ul>{project.scope.map((item) => <li key={item}>{item}</li>)}</ul>
         </CaseStudySection>
-        <CaseStudySection title={project.status === "completed" ? "Verification Results" : "Validation Plan"}>
+        <CaseStudySection title={project.sectionLabels?.validation ?? (project.status === "completed" ? "Verification Results" : "Validation Plan")}>
           <ul>{project.validation.map((item) => <li key={item}>{item}</li>)}</ul>
         </CaseStudySection>
         {project.verifiedSections?.map((section) => (

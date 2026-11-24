@@ -23,6 +23,12 @@ export type Project = {
       | "Local Interface";
     paragraphs: string[];
   }[];
+  sectionLabels?: {
+    overview?: string;
+    challenge?: string;
+    scope?: string;
+    validation?: string;
+  };
   repository?: string;
 };
 
@@ -349,6 +355,36 @@ export const projects: Project[] = [
       ]
   },
 
+  {
+    slug: "python-dsa",
+    title: "Python DSA",
+    summary:
+      "A collection of 30 Python problems to practise the patterns behind arrays, trees, graphs and dynamic programming.",
+    focus: "Algorithms & problem solving",
+    status: "completed",
+    completionNote:
+      "30 exercises, from Easy to Hard. Each one includes a typed Python solution, an explanation and tests. The full collection is available on GitHub.",
+    overview:
+      "I put this collection together to work on the fundamentals: searching, grouping values, traversing structures and keeping track of state. The aim is to be able to explain why a solution works and when to use it. Each problem has a rewritten statement, a walkthrough and notes on time and space complexity.",
+    challenge:
+      "The useful part is often a small decision: which pointer can move, what belongs in the stack, or which previous result is worth keeping. The explanations focus on those decisions. Working through duplicates, empty inputs and boundary cases helps make the reasoning precise.",
+    scope: [
+      "Arrays and hash maps, two pointers and sliding windows: finding useful information without repeatedly scanning the same values.",
+      "Stacks, linked lists, binary search, trees and graphs: following links, keeping the right traversal order and knowing which candidates can be discarded.",
+      "Heaps, greedy methods and dynamic programming: choosing what to keep now and what information will matter for the next step.",
+    ],
+    validation: [
+      "Each exercise has pytest examples and edge cases. The collection has 207 passing tests, with checks running on Python 3.12, 3.13 and 3.14.",
+      "For several problems, a simple brute-force solution acts as a reference on small inputs. It makes mistakes in an optimized solution easier to spot, especially around repeated values and window boundaries.",
+    ],
+    sectionLabels: {
+      overview: "Why I made this",
+      challenge: "What takes practice",
+      scope: "The patterns covered",
+      validation: "Checking the solutions",
+    },
+    repository: "https://github.com/WYLLLY/python-dsa",
+  },
 
 ];
 
