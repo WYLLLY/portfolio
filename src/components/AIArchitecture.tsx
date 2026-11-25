@@ -1,11 +1,11 @@
 import { ArchitectureExplorer, type ArchitectureScenario, type ScenarioKey } from "./ArchitectureExplorer";
 
 const nodes = [
-  { id: "api", number: "01", label: "Task API", detail: "One transaction commits the task, initial step, admission counters, event, and retained response before returning 202. Authenticated command replay returns that stored response." },
-  { id: "database", number: "02", label: "PostgreSQL", detail: "The database owns the durable queue, permissions, leases, events, and accounting. Redis wakeups are optional: workers continue polling when notifications are lost." },
-  { id: "worker", number: "03", label: "Workflow worker", detail: "A commits a lease and generation. B rechecks current authority and atomically reserves task, owner, and global budgets for the exact call. The connection closes before HTTP." },
-  { id: "provider", number: "04", label: "Responses API", detail: "A direct HTTPX adapter uses explicit model and tariff configuration, bounded requests, and server-side output validation. Protocol items and call IDs persist privately; ordinary verification uses synthetic providers." },
-  { id: "resolution", number: "05", label: "Result & cost", detail: "C commits accepted results, accounting, continuation, and events. An ambiguous call suspends the task and retains provision. Report delivery is a separate deterministic orchestrator step." },
+  { id: "api", number: "01", label: "API + PostgreSQL", detail: "API-key authentication and owner scoping guard admission. PostgreSQL commits task state, the pinned workflow, initial step, event and retained response before 202. Redis provides ephemeral wakeups, never durable truth." },
+  { id: "worker", number: "02", label: "Durable worker", detail: "The worker claims a fenced lease, reloads persisted checkpoints and rechecks current permissions. It atomically reserves applicable budgets before each model call, then releases the database connection before HTTP." },
+  { id: "provider", number: "03", label: "Responses adapter", detail: "The direct HTTPX adapter builds OpenAI Responses requests with function tools and structured report output. Call IDs and required protocol items persist between turns. Contract tests use synthetic responses; no paid live-provider run is claimed." },
+  { id: "tools", number: "04", label: "Validated read tools", detail: "The model may request search_documents or read_excerpt. The server validates names, arguments, cardinality, owner rights and document versions before local execution. It checkpoints the result and resumes the next model turn. Report delivery is not a model tool." },
+  { id: "resolution", number: "05", label: "Report + progress", detail: "The orchestrator validates the structured report and citations, then delivers it through a separate service. PostgreSQL events feed owner-scoped SSE progress. An ambiguous model call suspends the task with its cost provision retained." },
 ] as const;
 
 const scenarios: Record<ScenarioKey, ArchitectureScenario> = {
@@ -13,18 +13,18 @@ const scenarios: Record<ScenarioKey, ArchitectureScenario> = {
     eyebrow: "01 / VALIDATED RESULT",
     heading: "Commit the result.",
     steps: [
-      "The response passes protocol, tool, report, and permission checks for the current workflow step.",
-      "The worker checks its current lease, generation, and execution epoch before committing accepted progress and available usage evidence.",
-      "The orchestrator delivers the validated report through the separate demo service; the selected workflow can then finish.",
+      "The model may request a permitted document tool. The server validates it, checkpoints the result, and supplies it to the next model turn.",
+      "Each unit checks the current lease, generation, epoch and permissions. Model and tool turns stay within context, call and budget limits.",
+      "The server validates structured report output and citations before the orchestrator delivers it through the separate demo service.",
     ],
     outcome: "Validated report delivered · succeeded",
-    trace: ["admission → durable 202", "A → lease committed", "B → call authorized", "response → validated", "C → result & accounting"],
+    trace: ["admission → durable 202", "worker → lease & authorization", "model ↔ validated read tools", "report → citations checked", "commit → result & accounting"],
   },
   failure: {
     eyebrow: "02 / FUNCTIONAL REJECTION",
     heading: "Reject without hiding cost.",
     steps: [
-      "A refused or invalid model result cannot trigger partial tool execution or an automatic repair loop.",
+      "Unapproved tool names, invalid arguments or multiple actions fail server validation before execution.",
       "Known billable usage is still recorded. Missing usage keeps its unresolved provision for evidence-based reconciliation.",
       "The task records an explicit failure. Rejection never turns a billable response into a free call.",
     ],
@@ -47,12 +47,12 @@ const scenarios: Record<ScenarioKey, ArchitectureScenario> = {
 export function AIArchitecture() {
   return <ArchitectureExplorer
     nodes={nodes}
-    initialNodeId="database"
+    initialNodeId="worker"
     scenarios={scenarios}
-    flowLabel="Task → authorize → resolve"
+    flowLabel="Accept → model ↔ tools → report"
     scenarioLabel="AI task outcome scenario"
     traceLabel="TASK TRACE"
-    description="Follow one authorized model call through durable execution, validation, and accounting."
-    note="This is a simplified behavior map, not a live model call or captured log. Tools and report delivery have separate authorization boundaries. Timeout suspends an unresolved call; task deadline or cancellation can instead terminate local execution while remote exposure remains. Local fencing does not cancel remote work."
+    description="Follow a bounded agent workflow through durable checkpoints, tool validation and result accounting."
+    note="Illustrative behavior map, not a live or captured run. Tool results loop back to the model; report delivery stays orchestrator-only. SSE streams task events (Responses stream=false). Timeout suspends uncertain work; cancellation and deadlines cannot guarantee remote termination."
   />;
 }
