@@ -44,11 +44,11 @@ export function AICaseStudy({ project }: { project: Project }) {
           <div className="ledger-hero-main">
             <p className="ledger-kicker">03 / PERSONAL ENGINEERING PROJECT</p>
             <h1>AI Task<br />Execution <em>Platform.</em></h1>
-            <p className="ledger-deck">An AI backend designed around what survives a worker crash, a lost response, or a model call whose cost is still unknown.</p>
+            <p className="ledger-deck">I built a document-analysis backend with a bounded agent loop, validated tool calling, durable checkpoints and recoverable workers.</p>
           </div>
           <aside className="ledger-hero-aside" aria-label="Project details">
             <div className="ledger-aside-status"><span>PROJECT STATUS</span><StatusBadge status={project.status} /></div>
-            <div className="ledger-aside-field"><span>FOCUS</span><p>Durable AI workflows<br />&amp; accountable execution</p></div>
+            <div className="ledger-aside-field"><span>FOCUS</span><p>Bounded agent workflows<br />&amp; durable execution</p></div>
             <div className="ledger-aside-field"><span>IMPLEMENTED WITH</span><p>Python · FastAPI<br />PostgreSQL · Redis · HTTPX</p></div>
             <div className="ledger-aside-field"><span>BOUNDARY</span><p>Synthetic provider verification<br />Paid OpenAI smoke skipped</p></div>
           </aside>
@@ -56,15 +56,15 @@ export function AICaseStudy({ project }: { project: Project }) {
 
         <div className="ledger-fact-strip" aria-label="Verified project facts">
           <div><strong>07</strong><span>MILESTONES MERGED</span></div>
-          <div><strong>832</strong><span>MAINTAINED TESTS PASSED</span></div>
+          <div><strong>834</strong><span>TESTS IN RECORDED AUDIT</span></div>
           <div><strong>0</strong><span>SUITE FAILURES / ERRORS / SKIPS</span></div>
-          <div><strong>11 NOV 2026</strong><span>REGRESSION VERIFIED</span></div>
+          <div><strong>15 NOV 2026</strong><span>AUDIT RECORDED</span></div>
         </div>
 
         <section className="ledger-section ledger-intro" aria-labelledby="ai-intro-title">
           <p className="ledger-section-index">01 / THE PROBLEM</p>
           <div>
-            <h2 id="ai-intro-title">The response is lost.<br /><em>The cost is not.</em></h2>
+            <h2 id="ai-intro-title">A model needs tools.<br /><em>And boundaries.</em></h2>
             <div className="ledger-intro-copy">
               <p>{project.overview}</p>
               <p>{project.challenge}</p>
@@ -74,7 +74,7 @@ export function AICaseStudy({ project }: { project: Project }) {
         </section>
 
         <section className="ledger-section ledger-architecture" aria-labelledby="ai-architecture-title">
-          <div className="ledger-section-heading"><p className="ledger-section-index">02 / SYSTEM ARCHITECTURE</p><div><h2 id="ai-architecture-title">Where progress becomes durable.</h2><p>Select a component and an outcome to inspect the boundaries between task admission, external work, and cost reconciliation.</p></div></div>
+          <div className="ledger-section-heading"><p className="ledger-section-index">02 / SYSTEM ARCHITECTURE</p><div><h2 id="ai-architecture-title">Where progress becomes durable.</h2><p>Select a component and an outcome to follow the agent loop, durable state and permission checks. PostgreSQL owns progress; Redis supplies wakeups and rate limiting.</p></div></div>
           <AIArchitecture />
           <p className="ledger-evidence-footnote">The model can request only search_documents and read_excerpt. Report delivery is orchestrator-only. Responses call IDs and required protocol items persist privately with store=false, without depending on previous_response_id.</p>
         </section>
@@ -92,14 +92,13 @@ export function AICaseStudy({ project }: { project: Project }) {
         </section>
 
         <section className="ledger-section ledger-evidence" aria-labelledby="ai-evidence-title">
-          <div className="ledger-section-heading"><p className="ledger-section-index">04 / ENGINEERING EVIDENCE</p><div><h2 id="ai-evidence-title">Verified behavior,<br /><em>visible limits.</em></h2><p>The November maintenance revision passed its backend regression, independent review, and GitHub Actions.</p></div></div>
+          <div className="ledger-section-heading"><p className="ledger-section-index">04 / ENGINEERING EVIDENCE</p><div><h2 id="ai-evidence-title">Verified behavior,<br /><em>visible limits.</em></h2><p>The repository’s 14–15 November audit records a backend regression against local PostgreSQL and Redis, including permissions, accounting, SSE and delivery faults.</p></div></div>
           <div className="ledger-evidence-grid">
-            <div className="ledger-test-count"><strong>832</strong><span>TESTS PASSED</span><p>270 unit · 562 integration<br />0 failed · 0 errors · 0 skipped</p><small>Real PostgreSQL &amp; Redis</small></div>
+            <div className="ledger-test-count"><strong>834</strong><span>TESTS PASSED</span><p>271 unit · 563 integration<br />0 failed · 0 errors · 0 skipped</p><small>Real PostgreSQL &amp; Redis</small></div>
             <div className="ledger-evidence-list">{evidence.map((item, index) => <div key={item.label}><span>0{index + 1}</span><h3>{item.label}</h3><p>{item.detail}</p></div>)}</div>
           </div>
-          <p className="ledger-evidence-footnote"><a href="https://github.com/WYLLLY/ai-task-execution-platform">View source on GitHub ↗</a></p>
-          <p className="ledger-evidence-footnote">Ruff, formatting, mypy, and GitHub Actions passed. The suite uses synthetic providers. The paid OpenAI smoke test was outside the verification scope.</p>
-          <p className="ledger-evidence-footnote">M3–M7 retain behavioral Red/Green evidence. M1/M2 test-first chronology remains unverified under a documented, owner-accepted exception.</p>
+          <p className="ledger-evidence-footnote"><a href="https://github.com/WYLLLY/ai-task-execution-platform">View source on GitHub ↗</a> · <a href="https://github.com/WYLLLY/ai-task-execution-platform/blob/3b296351ef225bd94217d348e6f4516fde8b6b60/reviews/final-audit.md">Read the recorded audit ↗</a></p>
+          <p className="ledger-evidence-footnote">These are recorded audit results, not a new benchmark. Provider contracts use synthetic responses. Paid OpenAI smoke and real-model quality validation have not run.</p>
         </section>
 
         <section className="ledger-section" aria-labelledby="ai-workspace-title">

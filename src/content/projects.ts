@@ -117,11 +117,11 @@ export const projects: Project[] = [
     slug: "ai-task-execution-platform",
     title: "AI Task Execution Platform",
     summary:
-      "A completed FastAPI/PostgreSQL backend for durable AI workflows, bounded tool use, live progress, and evidence-based cost reconciliation.",
-    focus: "AI backend infrastructure",
+      "A Python backend for bounded AI agents: validated document tools, durable workflows, an OpenAI Responses adapter and SSE progress. Provider tests use simulations.",
+    focus: "AI Engineering & durable systems",
     status: "completed",
     completionNote:
-      "All seven milestones are complete and merged. The November maintenance rerun passed 832 backend tests, GitHub Actions, and independent review. Verification uses synthetic providers. The repository is public.",
+      "All seven backend milestones are merged. The 14–15 November audit records 834 backend tests against local services. Provider verification is synthetic; no paid OpenAI smoke has run. The repository is public.",
     overview:
       "A Python monolith exposes a FastAPI API, background workers, and an administrative CLI. It persists versioned document-analysis workflows, streams owner-scoped progress over SSE, and records external calls and accounting evidence. A direct HTTPX adapter implements the OpenAI Responses protocol; a separate demo report service exercises the remote-effect boundary.",
     challenge:
@@ -133,7 +133,7 @@ export const projects: Project[] = [
       "Added bounded SSE, Redis degradation handling, private observability, retention, encrypted restore drills, quarantine, and explicit delivery preflight.",
     ],
     validation: [
-      "The November rerun passed 270 unit and 562 integration tests with zero failures, errors, or skips. Ruff, formatting, mypy, and GitHub Actions passed.",
+      "The 14–15 November audit records 271 unit and 563 integration tests, with zero failures or skips, against local PostgreSQL and Redis. These are historical verification results.",
       "Real PostgreSQL and Redis checks cover migrations, allowed and forbidden privileges, observed lock contention, idempotency, stale workers, lost commit acknowledgements, crashes, and recovery.",
       "The synthetic reference campaign completed 1,000 of 1,000 tasks with 100 concurrent SSE connections, 10,016 reads, zero nominal stream errors, and no duplicate simulated effects.",
       "Independent post-merge review found no new material defect. Live OpenAI smoke was separately skipped because no distinct paid authorization and spending cap were provided.",
@@ -143,7 +143,7 @@ export const projects: Project[] = [
         title: "Local Interface",
         paragraphs: [
           "Taskroom adds a Next.js workspace for exploring tasks, steps, reports, and confirmed, estimated, or uncertain costs. Sample preview works locally without credentials or Docker; all example outcomes and costs are labelled illustrative. Optional Local API mode reads the existing owner's real task state through a server-side gateway.",
-          "The extension is pushed to a draft pull request and remains under review. On 29 October 2026, 14 frontend tests, TypeScript, ESLint, formatting, build, and frontend CI passed; a fresh 828-case backend regression and backend CI also passed. Independent security/reliability review approved the scoped local code. Full test-first chronology of visual UI interactions remains unverified.",
+          "Taskroom remains a separate draft pull request, rather than a deployed product. The 14–15 November audit records 17 Node tests, TypeScript, lint, formatting, build and three browser fixture journeys. A connected local exercise created and cancelled a synthetic task through the gateway; it did not run a real-provider analysis.",
           "In November, a disposable local stack verified queued creation, replay, and cancellation of a simulated analysis:1 task through the built server-side gateway. Dispatch stayed closed during this exercise. The extension runs locally with Node.js 24 and pnpm. The browser never receives the owner credential.",
         ],
       },
@@ -193,7 +193,7 @@ export const projects: Project[] = [
         title: "Limitations",
         paragraphs: [
           "The implemented OpenAI adapter has protocol-fixture coverage, but no paid live-provider smoke or real-model quality campaign has run. A production provider profile is not provisioned. Structural report validation cannot establish factual truth.",
-          "No public backend deployment, production TLS rollout, scheduled off-host backup delivery, or registry publication is claimed. The retained image inventory reports zero Python dependency findings but 244 OS findings, including two critical and 59 high; production use requires operator triage.",
+          "No public backend deployment, production TLS rollout, scheduled off-host backup delivery or registry publication is claimed. The repository records local image audits and restore drills; these are not a production security or recovery guarantee.",
           "Source is public. Cancellation cannot prove remote termination, restored backups can lose accepted work, and local measurements do not qualify production security, availability, or capacity.",
         ],
       },
