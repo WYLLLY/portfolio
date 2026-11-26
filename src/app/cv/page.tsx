@@ -10,11 +10,11 @@ export const metadata: Metadata = {
 };
 
 const repositories = [
-  { slug: "python-dsa", title: "Python DSA", detail: "30 Python problems covering core data structures and algorithms, with worked explanations, complexity notes and tests." },
-  { slug: "python-code-analyzer", title: "Python Code Analyzer", detail: "Static import graphs, iterative cycle detection and deterministic JSON reports. 682 tests; source available on request." },
   { slug: "payment-ledger-system", title: "Payment & Ledger System", detail: "Immutable double-entry ledger, atomic transfers and recoverable payments with a simulated provider." },
   { slug: "ai-task-execution-platform", title: "AI Task Execution Platform", detail: "Bounded agent workflows, OpenAI Responses integration, validated tool calling, durable workers and SSE progress. Provider verification uses simulations." },
   { slug: "fraud-detection-ml-service", title: "Fraud Detection ML Service", detail: "Trained and evaluated logistic regression and a PyTorch MLP using a dataset of 60,000 synthetic transactions. The selected logistic regression model powers the local scoring API. Experimental results do not establish real fraud accuracy." },
+  { slug: "python-dsa", title: "Python DSA", detail: "30 Python problems covering core data structures and algorithms, with worked explanations, complexity notes and tests." },
+  { slug: "python-code-analyzer", title: "Python Code Analyzer", detail: "Static import graphs, iterative cycle detection and deterministic JSON reports. 682 tests; source available on request." },
 ];
 
 export default function CvPage() {
@@ -24,7 +24,7 @@ export default function CvPage() {
       <header className={styles.header}>
         <p className="eyebrow">William Decatoire</p>
         <h1>Curriculum vitae</h1>
-        <p>Junior Software Engineer | Python Backend Developer<br />Paris, France</p>
+        <p>Junior Software Engineer | Python Backend Developer<br />Paris, France · {site.availability} · {site.english}</p>
       </header>
       <section className={styles.section} aria-labelledby="cv-downloads">
         <h2 id="cv-downloads">Download my CV</h2>
@@ -33,11 +33,6 @@ export default function CvPage() {
           <a href="/cv/William_Decatoire_CV_EN.pdf" download lang="en">English CV <span>PDF ↗</span></a>
           <a href="/cv/William_Decatoire_CV_FR.pdf" download lang="fr">CV français <span>PDF ↗</span></a>
         </div>
-      </section>
-      <section className={styles.section} aria-labelledby="cv-certification-goals">
-        <h2 id="cv-certification-goals">Certification goals</h2>
-        <p>Target certifications; not yet earned.</p>
-        <ul className={styles.projects}>{site.certificationGoals.map((goal) => <li key={goal.code}><a href={goal.href}>{goal.code} — {goal.title}</a></li>)}</ul>
       </section>
       <section className={styles.section} aria-labelledby="cv-projects">
         <h2 id="cv-projects">Explore the projects</h2>
@@ -50,6 +45,11 @@ export default function CvPage() {
             </li>
           ))}
         </ul>
+      </section>
+      <section className={styles.section} aria-labelledby="cv-certification-goals">
+        <h2 id="cv-certification-goals">Certification goals</h2>
+        <p>Target certifications; not yet earned.</p>
+        <ul className={styles.projects}>{site.certificationGoals.map((goal) => <li key={goal.code}><a href={goal.href}>{goal.code} — {goal.title}</a></li>)}</ul>
       </section>
     </main>
   );

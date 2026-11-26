@@ -275,6 +275,43 @@ export const projects: Project[] = [
   },
 
   {
+    slug: "fraud-detection-ml-service",
+    title: "Fraud Detection ML Service",
+    summary: "A reproducible synthetic-risk experiment with scikit-learn and PyTorch, a versioned FastAPI scoring API, and read-only Payment integration.",
+    focus: "Machine learning & API integration",
+    status: "completed",
+    completionNote: "Three milestones implemented and locally verified. The experiment uses 60,000 synthetic transactions; it does not demonstrate real fraud detection. Source is public on GitHub.",
+    overview: "I compared logistic regression and a CPU PyTorch MLP, then served the selected logistic regression model through a local FastAPI API. A separate CLI reads an existing fictional payment and requests an advisory score without changing the payment.",
+    challenge: "A useful experiment needs reproducible data splits, preprocessing fitted only on training data, versioned model artifacts, and clear limits on what synthetic labels can establish.",
+    scope: [
+      "Built separate generation, training and evaluation steps with fixed seeds and a 70/15/15 train/validation/test split.",
+      "Compared logistic regression and a PyTorch MLP on 60,000 synthetic transactions; selected the serving model using validation results before test evaluation.",
+      "Implemented versioned local inference, input-domain checks and a read-only HTTP integration with the Payment API.",
+    ],
+    validation: [
+      "The repository records a reproducible 60,000-transaction experiment and a local read-only scoring demonstration against a fictional payment.",
+      "PR #7, merged on 15 November 2026, records 145 passing tests and a raw Trivy exit code of zero for the exact local ARM64 runtime image. These are dated results, not a new scan.",
+      "The current CI policy requires complete OS and Python scanner coverage and rejects any High or Critical finding, scanner failure or incomplete inventory.",
+    ],
+    verifiedSections: [
+      {
+        title: "Engineering Decisions & Tradeoffs",
+        paragraphs: [
+          "Training, validation selection and test evaluation are separate phases. The serving bundle fixes feature order, preprocessing, threshold, schema and model identity; the API does not train on incoming requests.",
+          "The Payment client sends only the existing amount and currency to the local scorer. It never creates, cancels, retries or finalizes a payment. Invalid or unavailable scoring produces an explicit failure instead of a substitute score.",
+        ],
+      },
+      {
+        title: "Limitations",
+        paragraphs: [
+          "All risk labels are synthetic. No result establishes accuracy on real fraud, and scores neither authorize nor reject payments. Existing Payment records have no known synthetic label.",
+          "The inference service is local-only and has no public backend deployment. Model bundles must come from a trusted source. Local tests and image checks do not establish production security or capacity.",
+        ],
+      },
+    ],
+    repository: "https://github.com/WYLLLY/fraud-detection-ml-service",
+  },
+  {
     slug: "security-log-analyzer",
     title: "Security Log Analyzer",
     summary: "An offline Python CLI for identifying suspicious SSH authentication patterns in local Linux logs, with explainable alerts.",

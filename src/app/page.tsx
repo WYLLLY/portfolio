@@ -4,8 +4,10 @@ import { StatusBadge } from "@/components/StatusBadge";
 import { projects } from "@/content/projects";
 import { site } from "@/content/site";
 
-const [payment, orders, ai, production] = projects;
-const additionalProjects = projects.slice(4);
+const [payment, , ai, , analyzer] = projects;
+const featuredSlugs = [payment.slug, ai.slug, analyzer.slug];
+const additionalProjects = projects.filter((project) => project.status === "completed" && !featuredSlugs.includes(project.slug));
+const developingProjects = projects.filter((project) => project.status !== "completed");
 const completedCount = projects.filter((project) => project.status === "completed").length;
 const developingCount = projects.filter((project) => project.status === "in-development").length;
 const plannedCount = projects.filter((project) => project.status === "planned").length;
@@ -20,13 +22,15 @@ export default function Home() {
         </div>
         <div className="home-hero-grid">
           <div className="home-hero-identity">
-            <p className="home-hero-kicker"><span className="home-kicker-mark" />William Decatoire <span className="home-kicker-separator">/</span> Backend Engineer</p>
+            <p className="home-hero-kicker"><span className="home-kicker-mark" />William Decatoire <span className="home-kicker-separator">/</span> {site.role}</p>
             <h1 id="home-title">Systems that<br /><em>hold.</em></h1>
           </div>
           <div className="home-hero-position">
             <span className="home-rail-label">BACKEND ENGINEERING / SELECTED WORK</span>
             <p>{site.headline}</p>
+            <p className="home-availability">{site.availability} · {site.english}</p>
             <a href="#projects" className="home-inline-link">Explore selected work <span aria-hidden="true">↘</span></a>
+            <Link href="/cv" className="home-inline-link home-cv-link">View CV</Link>
           </div>
         </div>
         <div className="home-hero-baseline" aria-label="Engineering focus">
@@ -68,27 +72,23 @@ export default function Home() {
             </div>
           </Link>
 
-          <Link className="home-order-project home-project-link" href={"/projects/" + orders.slug}>
-            <div className="home-card-overline"><span>02 / DISTRIBUTED SYSTEMS</span><StatusBadge status={orders.status} /></div>
-            <div className="home-order-graphic" aria-hidden="true"><span>order</span><span>inventory</span><span>payment</span><span>fulfillment</span></div>
-            <div className="home-card-bottom"><div><h3>{orders.title}</h3><p>{orders.summary}</p></div><span className="home-link-arrow" aria-hidden="true">↗</span></div>
-            <span className="home-project-disclaimer">Planned workflow / resilient processing</span>
-          </Link>
-
           <Link className="home-ai-project home-project-link" href={"/projects/" + ai.slug}>
-            <div className="home-card-overline"><span>03 / AI BACKEND</span><StatusBadge status={ai.status} /></div>
+            <div className="home-card-overline"><span>02 / AI BACKEND</span><StatusBadge status={ai.status} /></div>
             <div className="home-ai-graphic" aria-hidden="true"><span>queued</span><span className="home-ai-active">running<span className="home-ai-pulse" /></span><span>succeeded</span></div>
             <div className="home-card-bottom"><div><h3>{ai.title}</h3><p>{ai.summary}</p></div><span className="home-link-arrow" aria-hidden="true">↗</span></div>
             <span className="home-project-disclaimer">Bounded tool calling / durable execution</span>
           </Link>
 
-          <Link className="home-production-project home-project-link" href={"/projects/" + production.slug}>
-            <div className="home-production-heading"><span>04 / PRODUCTION ENGINEERING</span><StatusBadge status={production.status} /></div>
-            <div className="home-production-body"><div><h3>{production.title}</h3><p>{production.summary}</p></div><div className="home-production-steps" aria-hidden="true"><span>Build</span><span>Observe</span><span>Recover</span></div><span className="home-link-arrow" aria-hidden="true">↗</span></div>
-            <span className="home-project-disclaimer">Planned operational layer</span>
+          <Link className="home-order-project home-project-link" href={"/projects/" + analyzer.slug}>
+            <div className="home-card-overline"><span>03 / DEVELOPER TOOLING</span><StatusBadge status={analyzer.status} /></div>
+            <div className="home-order-graphic" aria-hidden="true"><span>source</span><span>AST</span><span>graph</span><span>report</span></div>
+            <div className="home-card-bottom"><div><h3>{analyzer.title}</h3><p>{analyzer.summary}</p></div><span className="home-link-arrow" aria-hidden="true">↗</span></div>
+            <span className="home-project-disclaimer">Static analysis / no target execution</span>
           </Link>
         </div>
-        <div className="project-list">{additionalProjects.map((project, index) => <ProjectRow key={project.slug} project={project} index={index + 4} />)}</div>
+        <div className="project-list">{additionalProjects.map((project, index) => <ProjectRow key={project.slug} project={project} index={index + 3} />)}</div>
+        <h3 className="home-work-in-progress">Work in progress</h3>
+        <div className="project-list">{developingProjects.map((project, index) => <ProjectRow key={project.slug} project={project} index={index + completedCount} />)}</div>
       </section>
 
       <section className="home-engineering shell" id="engineering" aria-labelledby="engineering-title">
@@ -100,7 +100,8 @@ export default function Home() {
           <p className="home-engineering-intro">I focus on backend engineering with Python, building reliable APIs and data-intensive systems.</p>
           <div className="home-capabilities" aria-label="Engineering skills">
             <div><h3>Backend focus</h3><p>FastAPI, PostgreSQL, SQLAlchemy, Redis, and asynchronous processing. My work spans API design, data modeling, transactions, concurrency, idempotency, authentication, testing, and durable AI workflows with validated tool calling.</p></div>
-            <div><h3>Engineering workflow</h3><p>Good working proficiency in Linux, alongside Git, Docker, pytest, Ruff, mypy, GitHub Actions, and AI coding agents such as Codex. I use approved specifications, test-first implementation, independent code review, and verification against real PostgreSQL and Redis.</p></div>
+            <div><h3>Languages & systems</h3><p>Python is my main language. I also use SQL and Bash, have a good working knowledge of Java, and work comfortably in Linux.</p></div>
+            <div><h3>Engineering workflow</h3><p>I use Git, Docker, pytest, Ruff, mypy, GitHub Actions, and AI coding agents such as Codex. I work from clear specifications, write tests before implementation, review changes independently, and verify behavior against real PostgreSQL and Redis.</p></div>
             <div><h3>Certification goals</h3><p>Targeting {site.certificationGoals.map((goal, index) => <span key={goal.code}>{index > 0 ? " and " : ""}<a className="inline-link" href={goal.href}>{goal.code} — {goal.title}</a></span>)}. These are goals, not certifications already earned.</p></div>
             <div><h3>Currently developing</h3><p>I am building practical experience with message queues, observability, cloud infrastructure, Terraform, Kubernetes, and production operations.</p></div>
           </div>
@@ -109,7 +110,7 @@ export default function Home() {
 
       <section className="home-contact shell" id="contact" aria-labelledby="contact-title">
         <p className="home-section-index">03 / CONTACT</p>
-        <div className="home-contact-grid"><h2 id="contact-title">Let&apos;s talk<br /><em>engineering.</em></h2><div><p>Interested in discussing a Software or Backend Engineering opportunity?</p><a className="home-contact-email" href={"mailto:" + site.email}>{site.email} <span aria-hidden="true">↗</span></a><a className="home-inline-link" href={site.github}>View GitHub profile <span aria-hidden="true">↗</span></a></div></div>
+        <div className="home-contact-grid"><h2 id="contact-title">Let&apos;s talk<br /><em>engineering.</em></h2><div><p>I am looking for a junior Software or Backend Engineering role. Based in Paris · {site.availability.toLowerCase()} · {site.english}.</p><a className="home-contact-email" href={"mailto:" + site.email}>{site.email} <span aria-hidden="true">↗</span></a><a className="home-inline-link" href={site.github}>View GitHub profile <span aria-hidden="true">↗</span></a></div></div>
       </section>
     </main>
   );

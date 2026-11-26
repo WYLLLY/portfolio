@@ -27,15 +27,15 @@ const reports: readonly Report[] = [
     slug: "ai-task-execution-platform",
     title: "AI Task Execution Platform",
     changes: "Command parsing now rejects out-of-range JSON exponents with HTTP 422. The README reflects the merged backend and the separate Taskroom draft. Main requires a pull request and CI.",
-    verification: "832 backend tests and 14 Taskroom tests passed. Verification on disposable stacks covered a Redis outage, lost HTTP response, restart, encrypted restore, and simulated task creation, replay, and cancellation through the Taskroom gateway.",
-    evidence: "https://github.com/WYLLLY/ai-task-execution-platform/pull/9",
+    verification: "The 14–15 November audit records 834 backend tests and 17 Taskroom tests passed. Verification on disposable stacks covered a Redis outage, lost HTTP response, restart, encrypted restore, and simulated task creation, replay, and cancellation through the Taskroom gateway. Provider verification remains synthetic; no paid live-provider smoke has run.",
+    evidence: "https://github.com/WYLLLY/ai-task-execution-platform/blob/3b296351ef225bd94217d348e6f4516fde8b6b60/reviews/final-audit.md",
   },
   {
     slug: "fraud-detection-ml-service",
     title: "Fraud Detection ML Service",
-    changes: "Pinned CI actions and Trivy, restored the scan artifacts, and upgraded the image to SQLite 3.54.1. The image policy requires exact package and runtime evidence for the three verified vendor fixes. Main requires a pull request and both CI jobs.",
-    verification: "142 tests passed. The 60,000-record experiment and read-only synthetic Payment integration were replayed. The raw Trivy result reported 47 HIGH occurrences. The local-only gate records three verified vendor fixes and 44 existing exceptions expiring on November 28, 2026.",
-    evidence: "https://github.com/WYLLLY/fraud-detection-ml-service/pull/5",
+    changes: "PR #7, merged on 15 November 2026, replaced the Debian inference image with Ubuntu 24.04 and Python 3.12. It retired the old 44-High exception policy and its November 28 expiry. CI now requires complete OS/Python scanner coverage and rejects any High or Critical finding, scanner failure or incomplete inventory.",
+    verification: "The merged change records 145 passing tests, raw Trivy exit code 0 on the exact local ARM64 runtime image, and HTTP/bundle scoring parity. The earlier exception-based scan is historical and superseded. These dated local checks are not a fresh scan or production approval; model results remain limited to synthetic data.",
+    evidence: "https://github.com/WYLLLY/fraud-detection-ml-service/pull/7",
   },
   {
     slug: "multi-tenant-saas-platform",
@@ -71,7 +71,7 @@ export default function MaintenancePage() {
         <p className="eyebrow"><time dateTime="2026-11">November 2026</time></p>
         <h1>Project maintenance</h1>
         <p className="case-deck">Changes, verification runs, and remaining limits across seven engineering projects.</p>
-        <p>GitHub enforces pull requests and CI on the three public repositories. The four private repositories use independently reviewed pull requests with passing CI. Repository rulesets are unavailable on their current GitHub plan.</p>
+        <p>These are dated local verification records. Public repositories and recorded changes are linked below; private project source is not published here. The reports do not establish current scanner results or production readiness.</p>
       </header>
       <nav aria-label="Maintenance reports" className="case-section-body">
         <ul>
